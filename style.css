@@ -1,45 +1,55 @@
+/* =========================================================
+   style.css – Exploring Australian Native Plants
+   Colour palette (used throughout this file):
+     #304E3B  dark green  – main text and headings
+     #405D49  mid green   – paragraph text
+     #607464  grey-green  – notes and sources
+     #DCE7D7  pale green  – page background
+     #B5C9B3  soft green  – borders
+   ========================================================= */
+
 
 /* GENERAL PAGE STYLE */
 
+/* Element selector: sets the default font, size, colour and
+   line spacing for the whole page. Child elements inherit
+   these, so they don't need repeating further down. */
 body {
     margin: 0;
-    padding: 0;
     background-color: #DCE7D7;
     color: #304E3B;
     font-family: "Ubuntu", sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    background-image: url("images/plant.png");
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 280px auto;
 }
 
-/* HERO SECTION */
+/* Element selector: every h2 and h3 uses the same heading
+   typeface (Google Font loaded in index.html). */
+h2,
+h3 {
+    font-family: "Roboto Slab", serif;
+}
+
+
+/* HERO SECTION (page title at the top) */
 
 .hero {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px;          /* same width as the white content box */
+    margin: 0 auto;             /* centres the hero on the page */
     padding: 40px 30px 30px;
-    box-sizing: border-box;
+    box-sizing: border-box;     /* padding is included in the width */
 }
 
 .hero h1 {
     font-family: "Bricolage Grotesque", sans-serif;
     font-size: 3rem;
     margin: 0 0 10px;
-    color: #304E3B;
-}
-
-.hero p {
-    font-size: 1.1rem;
-    margin: 0;
-    color: #52705A;
 }
 
 
 /* ONE CONTINUOUS WHITE BACKGROUND */
 
+/* White card that holds every section of the story. */
 .content-container {
     max-width: 1200px;
     margin: 0 auto 60px;
@@ -53,25 +63,27 @@ body {
 
 /* MAIN CONTENT SECTIONS */
 
+/* Space between one section and the next. */
 .paragraph-section {
     margin: 0 0 50px;
-    padding: 0;
 }
 
+/* No extra space under the final section. */
 .paragraph-section:last-child {
     margin-bottom: 0;
 }
 
 .paragraph-section h2 {
-    font-family: "Roboto Slab", serif;
     font-size: 2rem;
     margin: 0 0 22px;
-    color: #304E3B;
 }
 
 
 /* TWO-COLUMN LAYOUT */
 
+/* Places text and chart side by side in two equal columns.
+   minmax(0, 1fr) stops a wide chart from pushing its column
+   wider than half the page. */
 .screen-split {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -82,23 +94,15 @@ body {
 
 /* EXPLANATORY TEXT */
 
-.screen-text {
-    min-width: 0;
-}
-
 .screen-text h3 {
-    font-family: "Roboto Slab", serif;
     font-size: 1.5rem;
     margin: 0 0 15px;
-    color: #304E3B;
 }
 
+/* Font, size and line spacing come from body; only the
+   differences are set here. */
 .screen-text p {
-    font-family: "Ubuntu", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
     letter-spacing: 0.05em;
-    line-height: 1.6;
     margin: 0 0 14px;
     color: #405D49;
 }
@@ -110,93 +114,76 @@ body {
 
 /* CHART PANEL */
 
-.chart-panel {
-    background-color: transparent;
-    padding: 0;
-    margin: 0;
-    min-width: 0;
-}
-
+/* Chart title, centred above each chart. */
 .chart-panel h3 {
-    font-family: "Roboto Slab", serif;
     font-size: 1.4rem;
     margin: 0 0 12px;
     text-align: center;
-    color: #304E3B;
 }
 
 
 /* VEGA-LITE CHART CONTAINERS */
 
+/* ID selectors: the <div>s that vegaEmbed() draws each chart
+   into (see script.js). Flexbox centres the chart in its
+   column. Add each new chart's id to this list. */
 #aus_flora_estimates_chart,
 #flora_share_map {
-    width: 100%;
     display: flex;
     justify-content: center;
-}
-
-#aus_flora_estimates_chart .vega-embed,
-#flora_share_map .vega-embed {
-    max-width: 100%;
-}
-
-#aus_flora_estimates_chart svg,
-#flora_share_map svg {
-    max-width: 100%;
-    height: auto;
 }
 
 
 /* CHART TEXT AND SOURCES */
 
-.chart-subtitle {
-    font-size: 0.9rem;
-    color: #607464;
-    text-align: center;
-    margin: 0 0 15px;
-}
-
-.chart-note {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    text-align: center;
-    color: #607464;
+/* Small grey text shown underneath each chart. */
+.chart-note,
+.chart-explanation,
+.chart-source {
     margin: 15px 0 0;
+    color: #607464;
 }
 
+.chart-note,
 .chart-explanation {
     font-size: 0.85rem;
-    line-height: 1.6;
+}
+
+.chart-note,
+.chart-source {
+    text-align: center;
+}
+
+/* The explanation sits closer to the main text, so it uses
+   the darker paragraph colour. */
+.chart-explanation {
     color: #405D49;
-    margin: 15px 0 0;
 }
 
 .chart-source {
     font-size: 0.8rem;
-    line-height: 1.6;
-    text-align: center;
-    color: #607464;
-    margin: 15px 0 0;
 }
 
 .chart-source a {
     color: #356A4B;
-    text-decoration: underline;
 }
 
 
 /* VEGA-LITE DROPDOWN */
 
-#flora_share_map .vega-bindings {
-    font-family: "Ubuntu", sans-serif;
+/* .vega-bindings is the box Vega-Lite creates for any input
+   bound to a param (dropdowns, sliders). Styling the class
+   means every future chart's dropdown matches automatically. */
+.vega-bindings {
     font-size: 0.9rem;
-    color: #304E3B;
     margin-top: 12px;
     text-align: center;
 }
 
-#flora_share_map select {
-    font-family: "Ubuntu", sans-serif;
+/* Dropdown menus don't inherit fonts by default, so
+   "inherit" makes them use Ubuntu like the rest of the page. */
+.vega-bindings select {
+    font-family: inherit;
     font-size: 0.9rem;
     padding: 6px 10px;
     border: 1px solid #B5C9B3;
@@ -208,6 +195,8 @@ body {
 
 /* RESPONSIVE DESIGN */
 
+/* On screens narrower than 1000px, stack text and chart in
+   one column so nothing scrolls sideways. */
 @media (max-width: 1000px) {
 
     .screen-split {
