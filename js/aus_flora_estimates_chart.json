@@ -1,4 +1,3 @@
-
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Dumbbell chart comparing described plant species in Australia and worldwide, based on the DCCEEW 2009 report.",
