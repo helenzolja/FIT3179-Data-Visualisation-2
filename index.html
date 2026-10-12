@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Exploring Australian Native Plants</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Vega-Lite Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+</head>
+
+<body>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+
+        <h1>Exploring Australian Native Plants</h1>
+
+    </header>
+
+
+    <!-- SINGLE WHITE CONTENT BACKGROUND -->
+    <main class="content-container">
+
+        <!-- SECTION 01: PLANT DIVERSITY -->
+        <section class="paragraph-section">
+
+            <h2>Diversity of Australian Plants</h2>
+
+            <div class="screen-split">
+
+                <!-- Sec1 text -->
+                <div class="screen-text">
+
+                    <p>
+                        Australia has over <b>20'000</b> native vascular plant species,
+                        which account for roughly 10% of the global total,
+                        with almost <b>9 in 10</b> Australian plant species (88%)
+                        being <b>endemic</b>, meaning they are found nowhere else
+                        on Earth.
+                    </p>
+
+                    <p>
+                        Within the large range of unique species, the country's
+                        flora is mainly dominated by several major taxonomic
+                        plant groups that have adapted to Australia's
+                        drought and fire-prone landscape.
+                    </p>
+
+                    <p>
+                        As visualised on the right, <b>flowering plants</b> or
+                        angiosperms make up the vast majority of the
+                        continent's vascular flora and dominate the world's
+                        ecosystems.
+
+                        Minor plant groups such as <b>gymnosperms</b> consist of
+                        conifers, cycads and their relatives.
+
+                        <b>Bryophytes</b>, consisting of mosses, liverworts and
+                        hornworts, are small, non-vascular, spore-producing
+                        plants that play a role in soil stabilisation and
+                        other ecological processes.
+                    </p>
+
+                    <p>
+                        Although worldwide species totals are much larger,
+                        comparing the groups reveals how Australia's
+                        contribution varies across different branches
+                        of plant diversity.
+                    </p>
+
+                </div>
+
+
+                <!-- Dumbbell chart 1 -->
+                <div class="chart-panel">
+
+                    <h3>Plant Groups in Australia vs Worldwide</h3>
+
+                    <div id="aus_flora_estimates_chart"></div>
+
+                    <p class="chart-explanation">
+                        <i> Note: A logarithmic scale is used to accommodate
+                        differences in species counts between groups.
+                        Distances therefore represent proportional rather
+                        than absolute differences.</i>
+                    </p>
+
+                    <p class="chart-source">
+                        Source:
+                        <a href="https://www.dcceew.gov.au/science-research/abrs/publications/other/numbers-living-species/discussion-plants"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            DCCEEW — Numbers of Living Species
+                            in Australia and the World
+                        </a>
+                        (2009).
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Chart 2 map -->
+        <section class="paragraph-section">
+
+            <div class="screen-split">
+
+                <!-- LEFT: CHOROPLETH MAP -->
+                <div class="chart-panel">
+
+                    <h3>Flora Distribution by State</h3>
+
+                    <p class="chart-subtitle">
+                        Native vs naturalised flora percentages, 1992
+                    </p>
+
+                    <div id="flora_share_map"></div>
+
+                    <p class="chart-note">
+                        Select a flora category using the dropdown menu.
+                        Darker shades represent higher percentages.
+                    </p>
+
+                    <p class="chart-source">
+                        Source: Australian flora statistics (1992).
+                    </p>
+
+                </div>
+
+
+                <!-- RIGHT: EXPLANATORY TEXT -->
+                <div class="screen-text">
+
+                    <h3>Native and Naturalised Flora Across Australia</h3>
+
+                    <p>
+                        Australia's plant diversity varies across states
+                        and territories, reflecting differences in climate,
+                        geography and environmental conditions.
+                    </p>
+
+                    <p>
+                        Native flora refers to plant species that occur
+                        naturally in Australia, while naturalised flora
+                        consists of introduced species that have established
+                        self-sustaining populations.
+                    </p>
+
+                    <p>
+                        This map compares the reported percentages of
+                        native and naturalised flora across seven Australian
+                        states and territories using historical data
+                        from 1992.
+                    </p>
+
+                    <p>
+                        Use the interactive dropdown to explore how
+                        these percentages vary geographically.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+

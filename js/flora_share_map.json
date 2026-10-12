@@ -1,0 +1,110 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 420,
+  "height": 320,
+  "background": null,
+
+  "params": [
+    {
+      "name": "floraType",
+      "value": "Native",
+      "bind": {
+        "input": "select",
+        "options": ["Native", "Naturalised"],
+        "name": "Flora category: "
+      }
+    }
+  ],
+
+  "data": {
+    "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+    "format": {
+      "type": "json",
+      "property": "features"
+    }
+  },
+
+  "transform": [
+    {
+      "calculate": "datum.properties.STATE_NAME",
+      "as": "state_name"
+    },
+    {
+      "lookup": "state_name",
+      "from": {
+        "data": {
+          "url": "data/05_flora_share_by_state_1992.csv"
+        },
+        "key": "State",
+        "fields": [
+          "Native flora %",
+          "Naturalised flora %"
+        ]
+      }
+    },
+    {
+      "calculate": "floraType === 'Native' ? toNumber(datum['Native flora %']) : toNumber(datum['Naturalised flora %'])",
+      "as": "selected_percentage"
+    }
+  ],
+
+  "projection": {
+    "type": "mercator"
+  },
+
+  "mark": {
+    "type": "geoshape",
+    "stroke": "#FFFFFF",
+    "strokeWidth": 1
+  },
+
+  "encoding": {
+    "shape": {
+      "field": "geometry",
+      "type": "geojson"
+    },
+    "color": {
+      "field": "selected_percentage",
+      "type": "quantitative",
+      "scale": {
+        "domain": [0, 70],
+        "range": [
+          "#E8F0E4",
+          "#346747"
+        ]
+      },
+      "legend": {
+        "title": "Flora share (%)",
+        "orient": "bottom",
+        "gradientLength": 220,
+        "gradientThickness": 10
+      }
+    },
+    "tooltip": [
+      {
+        "field": "state_name",
+        "type": "nominal",
+        "title": "State"
+      },
+      {
+        "field": "selected_percentage",
+        "type": "quantitative",
+        "title": "Flora share (%)",
+        "format": ".0f"
+      }
+    ]
+  },
+
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "legend": {
+      "labelFont": "Roboto",
+      "titleFont": "Roboto",
+      "labelColor": "#304E3B",
+      "titleColor": "#304E3B"
+    }
+  }
+}

@@ -1,0 +1,228 @@
+
+/* GENERAL PAGE STYLE */
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #DCE7D7;
+    color: #304E3B;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background-image: url("images/plant.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: 280px auto;
+}
+
+
+/* HERO SECTION */
+
+.hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 30px 30px;
+    box-sizing: border-box;
+}
+
+.hero h1 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 3rem;
+    margin: 0 0 10px;
+    color: #304E3B;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #52705A;
+}
+
+
+/* ONE CONTINUOUS WHITE BACKGROUND */
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 35px;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(48, 78, 59, 0.10);
+    box-sizing: border-box;
+}
+
+
+/* MAIN CONTENT SECTIONS */
+
+.paragraph-section {
+    margin: 0 0 50px;
+    padding: 0;
+}
+
+.paragraph-section:last-child {
+    margin-bottom: 0;
+}
+
+.paragraph-section h2 {
+    font-family: "Roboto Slab", serif;
+    font-size: 2rem;
+    margin: 0 0 22px;
+    color: #304E3B;
+}
+
+
+/* TWO-COLUMN LAYOUT */
+
+.screen-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 35px;
+    align-items: start;
+}
+
+
+/* EXPLANATORY TEXT */
+
+.screen-text {
+    min-width: 0;
+}
+
+.screen-text h3 {
+    font-family: "Roboto Slab", serif;
+    font-size: 1.5rem;
+    margin: 0 0 15px;
+    color: #304E3B;
+}
+
+.screen-text p {
+    font-family: "Ubuntu", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+    margin: 0 0 14px;
+    color: #405D49;
+}
+
+.screen-text p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* CHART PANEL */
+
+.chart-panel {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
+.chart-panel h3 {
+    font-family: "Roboto Slab", serif;
+    font-size: 1.4rem;
+    margin: 0 0 12px;
+    text-align: center;
+    color: #304E3B;
+}
+
+
+/* VEGA-LITE CHART CONTAINERS */
+
+#aus_flora_estimates_chart,
+#flora_share_map {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#aus_flora_estimates_chart .vega-embed,
+#flora_share_map .vega-embed {
+    max-width: 100%;
+}
+
+#aus_flora_estimates_chart svg,
+#flora_share_map svg {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* CHART TEXT AND SOURCES */
+
+.chart-subtitle {
+    font-size: 0.9rem;
+    color: #607464;
+    text-align: center;
+    margin: 0 0 15px;
+}
+
+.chart-note {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #607464;
+    margin: 15px 0 0;
+}
+
+.chart-explanation {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #405D49;
+    margin: 15px 0 0;
+}
+
+.chart-source {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    text-align: center;
+    color: #607464;
+    margin: 15px 0 0;
+}
+
+.chart-source a {
+    color: #356A4B;
+    text-decoration: underline;
+}
+
+
+/* VEGA-LITE DROPDOWN */
+
+#flora_share_map .vega-bindings {
+    font-family: "Ubuntu", sans-serif;
+    font-size: 0.9rem;
+    color: #304E3B;
+    margin-top: 12px;
+    text-align: center;
+}
+
+#flora_share_map select {
+    font-family: "Ubuntu", sans-serif;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    border: 1px solid #B5C9B3;
+    border-radius: 6px;
+    background-color: #FFFFFF;
+    color: #304E3B;
+}
+
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 1000px) {
+
+    .screen-split {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 30px 20px;
+    }
+
+    .content-container {
+        margin: 0 20px 40px;
+        padding: 25px 20px;
+    }
+
+}
+

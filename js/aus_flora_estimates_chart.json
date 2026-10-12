@@ -1,0 +1,165 @@
+
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Dumbbell chart comparing described plant species in Australia and worldwide, based on the DCCEEW 2009 report.",
+  "data": {
+    "url": "data/australia_world_plant_comparison_long_2009.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "background": null,
+  "width": 365,
+  "height": 290,
+  "transform": [
+    {
+      "filter": "datum.measure === 'described_accepted'"
+    },
+    {
+      "calculate": "toNumber(datum.species_midpoint)",
+      "as": "species"
+    },
+    {
+      "filter": "isValid(datum.species) && datum.species > 0"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "plant_group",
+      "type": "nominal",
+      "sort": [
+        "Flowering plants",
+        "Gymnosperms",
+        "Ferns and allies",
+        "Bryophytes",
+        "Plant algae"
+      ],
+      "axis": {
+        "title": null,
+        "labelFont": "Roboto",
+        "labelFontSize": 12,
+        "labelColor": "#304E3B",
+        "labelPadding": 10,
+        "labelLimit": 125,
+        "ticks": false,
+        "domain": false
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "color": "#B5C9B3"
+      },
+      "encoding": {
+        "x": {
+          "field": "species",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domain": [100, 500000]
+          },
+          "axis": {
+            "title": "Number of species (log scale)",
+            "titleFont": "Roboto",
+            "titleFontSize": 12,
+            "titleColor": "#304E3B",
+            "titlePadding": 15,
+            "labelFont": "Roboto",
+            "labelFontSize": 10,
+            "labelColor": "#607464",
+            "format": "~s",
+            "grid": true,
+            "gridColor": "#E1E9DC",
+            "gridDash": [3, 4],
+            "domain": false,
+            "tickColor": "#B5C9B3"
+          }
+        },
+        "detail": {
+          "field": "plant_group",
+          "type": "nominal"
+        },
+        "order": {
+          "field": "species",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 160,
+        "stroke": "#FAFBF6",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "x": {
+          "field": "species",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domain": [100, 500000]
+          },
+          "axis": {
+            "title": "Number of species (log scale)",
+            "format": "~s"
+          }
+        },
+        "color": {
+          "field": "region",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Australia", "World"],
+            "range": ["#527A58", "#D19D5B"]
+          },
+          "legend": {
+            "title": null,
+            "orient": "top",
+            "direction": "horizontal",
+            "symbolType": "circle",
+            "symbolSize": 120,
+            "labelFont": "Roboto",
+            "labelFontSize": 12,
+            "labelColor": "#304E3B",
+            "offset": 12
+          }
+        },
+        "tooltip": [
+          {
+            "field": "plant_group",
+            "type": "nominal",
+            "title": "Plant group"
+          },
+          {
+            "field": "region",
+            "type": "nominal",
+            "title": "Region"
+          },
+          {
+            "field": "species",
+            "type": "quantitative",
+            "title": "Number of species",
+            "format": ",.0f"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "background": null,
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Roboto",
+      "titleFont": "Roboto"
+    }
+  }
+}
+
+
+
