@@ -18,10 +18,9 @@
   ],
 
   "data": {
-    "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.min.geojson",
+    "url": "data/states.geojson",
     "format": {
-      "type": "json",
-      "property": "features"
+      "type": "json"
     }
   },
 
@@ -44,13 +43,16 @@
       }
     },
     {
-      "calculate": "floraType === 'Native' ? toNumber(datum['Native flora %']) : toNumber(datum['Naturalised flora %'])",
+      "calculate": "floraType == 'Native' ? toNumber(datum['Native flora %']) : toNumber(datum['Naturalised flora %'])",
       "as": "selected_percentage"
+    },
+    {
+      "filter": "isValid(datum.selected_percentage)"
     }
   ],
 
   "projection": {
-    "type": "mercator"
+    "type": "albersUsa"
   },
 
   "mark": {
@@ -60,19 +62,12 @@
   },
 
   "encoding": {
-    "shape": {
-      "field": "geometry",
-      "type": "geojson"
-    },
     "color": {
       "field": "selected_percentage",
       "type": "quantitative",
       "scale": {
         "domain": [0, 70],
-        "range": [
-          "#E8F0E4",
-          "#346747"
-        ]
+        "range": ["#E8F0E4", "#346747"]
       },
       "legend": {
         "title": "Flora share (%)",
@@ -81,6 +76,7 @@
         "gradientThickness": 10
       }
     },
+
     "tooltip": [
       {
         "field": "state_name",
@@ -101,10 +97,14 @@
       "stroke": null
     },
     "legend": {
-      "labelFont": "Roboto",
-      "titleFont": "Roboto",
+      "labelFont": "Ubuntu",
+      "titleFont": "Ubuntu",
       "labelColor": "#304E3B",
       "titleColor": "#304E3B"
     }
   }
 }
+
+
+
+
