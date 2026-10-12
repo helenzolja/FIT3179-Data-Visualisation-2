@@ -83,12 +83,14 @@ h3 {
 
 /* Places text and chart side by side in two equal columns.
    minmax(0, 1fr) stops a wide chart from pushing its column
-   wider than half the page. */
+   wider than half the page. align-items: center lines the
+   shorter column up with the middle of the taller one, so
+   there is no empty gap under short text. */
 .screen-split {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 35px;
-    align-items: start;
+    align-items: center;
 }
 
 
@@ -125,12 +127,25 @@ h3 {
 /* VEGA-LITE CHART CONTAINERS */
 
 /* ID selectors: the <div>s that vegaEmbed() draws each chart
-   into (see script.js). Flexbox centres the chart in its
-   column. Add each new chart's id to this list. */
+   into (see script.js). Flexbox centres each chart in its
+   half-width column. Add each new side-by-side chart's id here. */
 #aus_flora_estimates_chart,
 #flora_share_map {
     display: flex;
     justify-content: center;
+}
+
+/* Full-width charts (butterfly chart, monthly choropleth): centred
+   with text-align, because Vega draws charts as inline elements.
+   If the screen is narrower than the chart, it scrolls inside
+   its own box instead of making the whole page scroll sideways. */
+#family_share_butterfly,
+#vegetation_waffle,
+#weed_chart,
+#genera_2025_chloropleth {
+    display: block;
+    text-align: center;
+    overflow-x: auto;
 }
 
 
@@ -193,6 +208,22 @@ h3 {
 }
 
 
+/* FOOTER (author, date, sources) */
+
+.page-footer {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 30px;
+    box-sizing: border-box;
+    font-size: 0.85rem;
+    color: #405D49;
+}
+
+.page-footer a {
+    color: #356A4B;
+}
+
+
 /* RESPONSIVE DESIGN */
 
 /* On screens narrower than 1000px, stack text and chart in
@@ -214,3 +245,27 @@ h3 {
 
 }
 
+
+/* MONTH SLIDER UNDER THE CHOROPLETH */
+
+/* The month names are drawn by Vega-Lite as a strip under the map.
+   These rules stretch the slider to the same width as that strip
+   (845px chart - one 65px month cell + ~16px slider thumb), so each
+   month name sits directly above its slider position. The number
+   Vega shows next to the slider is hidden because the strip already
+   shows the month name. */
+#genera_month_choropleth .vega-bindings {
+    text-align: center;
+}
+
+#genera_month_choropleth input[type="range"] {
+    width: 796px;
+    margin: 0 0 14px;
+    accent-color: #C4561B;
+}
+
+#genera_month_choropleth input[type="range"] + span,
+#genera_month_choropleth input[type="range"] ~ span,
+#genera_month_choropleth .vega-bind:has(input[type="range"]) .vega-bind-name {
+    display: none;
+}

@@ -53,7 +53,7 @@
         "color": {
           "field": "Percentage",
           "type": "quantitative",
-          "title": "Percentage of total flora",
+          "title": "Percentage of total category",
           "scale": {
             "domain": [0, 100],
             "range": [

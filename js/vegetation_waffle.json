@@ -1,0 +1,75 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Waffle chart: what covers Australia's land. 1,000 squares; each square is 0.1% of Australia (about 7,700 sq km). Squares are coloured by structural vegetation group; the tooltip shows the detailed vegetation type. Data: ANBG Australian Flora Statistics (structural vegetation types).",
+  "background": null,
+  "data": {
+    "url": "data/09_vegetation_types.csv",
+    "format": {"parse": {"Area (sq km)": "number", "% of Australia": "number"}}
+  },
+  "transform": [
+    {
+      "calculate": "{'Closed forest': 'Forests', 'Open forest': 'Forests', 'Woodlands': 'Woodlands', 'Open woodlands': 'Woodlands', 'Tall shrublands': 'Shrublands', 'Low shrublands': 'Shrublands', 'Hummock grassland': 'Grasslands', 'Tufted grasses/graminoids': 'Grasslands', 'Other herbaceous plants': 'Pastures and herbs', 'Littoral complex': 'Mangroves and coast', 'Other': 'Urban, cropping and bare'}[datum['Vegetation type']]",
+      "as": "group"
+    },
+    {
+      "calculate": "indexof(['Forests', 'Woodlands', 'Shrublands', 'Grasslands', 'Pastures and herbs', 'Mangroves and coast', 'Urban, cropping and bare'], datum.group)",
+      "as": "group_order"
+    },
+    {
+      "joinaggregate": [{"op": "sum", "field": "% of Australia", "as": "group_share"}],
+      "groupby": ["group"]
+    },
+    {"calculate": "datum.group + ' (' + format(datum.group_share, '.1f') + '%)'", "as": "group_label"},
+    {"calculate": "round(datum['% of Australia'] * 10)", "as": "squares"},
+    {"calculate": "sequence(0, datum.squares)", "as": "square_index"},
+    {"flatten": ["square_index"]},
+    {
+      "window": [{"op": "row_number", "as": "position"}],
+      "sort": [
+        {"field": "group_order", "order": "ascending"},
+        {"field": "% of Australia", "order": "ascending"},
+        {"field": "square_index", "order": "ascending"}
+      ]
+    },
+    {"calculate": "(datum.position - 1) % 40", "as": "col"},
+    {"calculate": "floor((datum.position - 1) / 40)", "as": "row"}
+  ],
+  "title": {
+    "text": "Structural vegetation types in Australia",
+    "subtitle": [
+      "Each square = 0.1% of Australia (about 7,700 sq km)."
+    ],
+    "anchor": "start",
+    "fontSize": 16,
+    "subtitleFontSize": 12,
+    "color": "#304E3B",
+    "subtitleColor": "#607464",
+    "offset": 14
+  },
+  "width": 600,
+  "height": 375,
+  "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1.2},
+  "encoding": {
+    "x": {"field": "col", "type": "ordinal", "axis": null},
+    "y": {"field": "row", "type": "ordinal", "axis": null},
+    "color": {
+      "field": "group_label",
+      "type": "nominal",
+      "title": "Vegetation group (% of Australia)",
+      "sort": {"field": "group_order"},
+      "scale": {"range": ["#2F5D3A", "#7BA05B", "#C9A44C", "#E8D27A", "#D8CCB0", "#3E8E9E", "#8C8C8C"]},
+      "legend": {"orient": "right", "symbolType": "square", "symbolSize": 500, "labelFontSize": 12, "titleFontSize": 12, "labelLimit": 500}
+    },
+    "tooltip": [
+      {"field": "Vegetation type", "type": "nominal", "title": "Vegetation type"},
+      {"field": "Description", "type": "nominal"},
+      {"field": "% of Australia", "type": "quantitative", "title": "% of Australia", "format": ".1f"},
+      {"field": "Area (sq km)", "type": "quantitative", "title": "Area (sq km)", "format": ","}
+    ]
+  },
+  "config": {
+    "view": {"stroke": null},
+    "font": "Ubuntu",
+    "legend": {"labelColor": "#304E3B", "titleColor": "#304E3B"}
+  }
+}
