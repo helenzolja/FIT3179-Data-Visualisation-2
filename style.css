@@ -1,0 +1,218 @@
+
+/* ==================================
+   GLOBAL STYLING
+================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #E8EDE2;
+  color: #304E3B;
+  font-family: "Roboto", sans-serif;
+}
+
+h1, h2, h3, p {
+  margin-top: 0;
+}
+
+/* ==================================
+   HERO HEADER
+================================== */
+
+.hero {
+  background-color: #D8E3D1;
+  padding: 35px 30px;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #526855;
+  margin-bottom: 0;
+}
+
+/* ==================================
+   SECTION LAYOUT
+================================== */
+
+.flora-section {
+  max-width: 1400px;
+  margin: 50px auto 70px;
+  padding: 0 40px;
+}
+
+.flora-section h2 {
+  font-family: "Roboto Slab", serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  margin-bottom: 35px;
+}
+
+/* TWO-COLUMN GRID */
+
+.flora-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 35px;
+  align-items: start;
+}
+
+/* ==================================
+   LEFT TEXT COLUMN
+================================== */
+
+.flora-text {
+  padding: 35px 15px 20px 0;
+}
+
+.flora-text h3 {
+  font-family: "Roboto Slab", serif;
+  font-size: 1.6rem;
+  margin-bottom: 30px;
+}
+
+.flora-text p {
+  font-size: 1rem;
+  line-height: 1.9;
+  margin-bottom: 22px;
+}
+
+/* ==================================
+   RIGHT CHART PANEL
+================================== */
+
+.flora-chart-panel {
+  background-color: #FAFBF6;
+  padding: 28px 20px;
+  border-radius: 18px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.flora-chart-title {
+  font-family: "Roboto Slab", serif;
+  font-size: 1.25rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.chart-subtitle {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.85rem;
+  color: #607464;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* ==================================
+   VEGA-LITE CHART
+================================== */
+
+#aus_flora_estimates_chart {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+#aus_flora_estimates_chart .vega-embed {
+  max-width: 100%;
+}
+
+#aus_flora_estimates_chart svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ==================================
+   CHART NOTES AND SOURCES
+================================== */
+
+.chart-note {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #607464;
+  text-align: center;
+  margin: 18px 0 10px;
+}
+
+.chart-explanation {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  color: #607464;
+  margin: 18px 0 12px;
+  font-style: italic;
+}
+.chart-source {
+  font-family: "Roboto", sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #607464;
+  text-align: center;
+  margin: 16px 0 0;
+}
+
+.chart-source a {
+  color: #304E3B;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.chart-source a:hover {
+  color: #658066;
+}
+
+@media (max-width: 1000px) {
+  .flora-section {
+    padding: 0 25px;
+  }
+  .flora-split {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .flora-text {
+    padding: 0;
+  }
+  .flora-chart-panel {
+    max-width: 650px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 480px) {
+  .hero {
+    padding: 30px 20px;
+  }
+  .flora-section {
+    padding: 0 15px;
+  }
+  .flora-section h2 {
+    font-size: 1.6rem;
+  }
+  .flora-text h3 {
+    font-size: 1.3rem;
+  }
+  .flora-chart-panel {
+    padding: 22px 10px;
+  }
+
+}
+
