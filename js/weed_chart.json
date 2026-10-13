@@ -1,0 +1,348 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "UpSet-style bar + heatmap: the 15 most-recorded listed weeds in Australia. Left: which official weed/pest lists each weed is on (filled dot = listed). Right: total number of ALA records. Lists shown: Weeds of National Significance, ABS key weeds, WA and VIC notifiable pests. Data: ALA weed and pest lists (plant_weeds_pests_with_names.csv).",
+  "background": null,
+  "data": {
+    "url": "data/plant_weeds_pests_with_names.csv",
+    "format": {
+      "parse": {
+        "number_of_records": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "calculate": "{'Weeds of National Significance (WoNS) as at Feb. 2013': 'National (WoNS)', 'Key Australian weed species list (ABS)': 'Key weeds (ABS)', 'WA State Notifiable Pests': 'WA notifiable', 'VIC State Notifiable Pests': 'VIC notifiable'}[datum.source_list]",
+      "as": "list"
+    },
+    {
+      "filter": "isValid(datum.list)"
+    },
+    {
+      "calculate": "isValid(datum.vernacular_name) && datum.vernacular_name != '' ? datum.vernacular_name : datum.species_name",
+      "as": "weed"
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "max",
+          "field": "number_of_records",
+          "as": "records"
+        },
+        {
+          "op": "distinct",
+          "field": "list",
+          "as": "list_count"
+        }
+      ],
+      "groupby": [
+        "species_name"
+      ]
+    },
+    {
+      "window": [
+        {
+          "op": "dense_rank",
+          "as": "ranking"
+        }
+      ],
+      "sort": [
+        {
+          "field": "records",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.ranking <= 15"
+    }
+  ],
+  "spacing": 24,
+  "hconcat": [
+    {
+      "width": 240,
+      "height": 420,
+      "transform": [
+        {
+          "calculate": "'Y'",
+          "as": "on_list"
+        },
+        {
+          "impute": "on_list",
+          "key": "list",
+          "keyvals": [
+            "National (WoNS)",
+            "Key weeds (ABS)",
+            "WA notifiable",
+            "VIC notifiable"
+          ],
+          "groupby": [
+            "weed",
+            "ranking",
+            "records",
+            "list_count"
+          ],
+          "value": "N"
+        },
+        {
+          "calculate": "indexof(['National (WoNS)', 'Key weeds (ABS)', 'WA notifiable', 'VIC notifiable'], datum.list)",
+          "as": "list_position"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "list_position",
+          "type": "quantitative",
+          "title": "Weed or pest list",
+          "scale": {
+            "domain": [
+              -0.5,
+              3.5
+            ]
+          },
+          "axis": {
+            "orient": "top",
+            "values": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "labelExpr": "['National (WoNS)', 'Key weeds (ABS)', 'WA notifiable', 'VIC notifiable'][datum.value]",
+            "labelAngle": -40,
+            "labelAlign": "left",
+            "ticks": false,
+            "domain": false,
+            "grid": false,
+            "labelFontSize": 11,
+            "labelOverlap": false,
+            "labelBound": false
+          }
+        },
+        "y": {
+          "field": "weed",
+          "type": "nominal",
+          "title": null,
+          "sort": {
+            "field": "ranking",
+            "op": "min",
+            "order": "ascending"
+          },
+          "axis": {
+            "ticks": false,
+            "domain": false,
+            "labelFontSize": 11,
+            "labelLimit": 300,
+            "labelPadding": 10
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "rule",
+            "color": "#EDE7E0",
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "x": {
+              "datum": -0.5
+            },
+            "x2": {
+              "datum": 3.5
+            }
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.on_list == 'Y'"
+            },
+            {
+              "aggregate": [
+                {
+                  "op": "min",
+                  "field": "list_position",
+                  "as": "first_list"
+                },
+                {
+                  "op": "max",
+                  "field": "list_position",
+                  "as": "last_list"
+                }
+              ],
+              "groupby": [
+                "weed",
+                "ranking"
+              ]
+            }
+          ],
+          "mark": {
+            "type": "rule",
+            "color": "#B8860B",
+            "strokeWidth": 3.5
+          },
+          "encoding": {
+            "x": {
+              "field": "first_list",
+              "type": "quantitative"
+            },
+            "x2": {
+              "field": "last_list"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "circle",
+            "size": 150,
+            "opacity": 1
+          },
+          "encoding": {
+            "color": {
+              "field": "on_list",
+              "type": "nominal",
+              "title": null,
+              "scale": {
+                "domain": [
+                  "Y",
+                  "N"
+                ],
+                "range": [
+                  "#B8860B",
+                  "#EDE7DA"
+                ]
+              },
+              "legend": {
+                "orient": "bottom",
+                "labelExpr": "datum.value == 'Y' ? 'Included in list' : 'Not included in list'",
+                "symbolSize": 120,
+                "direction": "horizontal"
+              }
+            },
+            "tooltip": [
+              {
+                "field": "weed",
+                "type": "nominal",
+                "title": "Weed"
+              },
+              {
+                "field": "list",
+                "type": "nominal",
+                "title": "List"
+              }
+        
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "width": 300,
+      "height": 420,
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "max",
+              "field": "records",
+              "as": "records"
+            },
+            {
+              "op": "max",
+              "field": "list_count",
+              "as": "list_count"
+            }
+          ],
+          "groupby": [
+            "weed",
+            "ranking"
+          ]
+        }
+      ],
+      "encoding": {
+        "y": {
+          "field": "weed",
+          "type": "nominal",
+          "sort": {
+            "field": "ranking",
+            "op": "min",
+            "order": "ascending"
+          },
+          "axis": null
+        },
+        "x": {
+          "field": "records",
+          "type": "quantitative",
+          "title": "Number of total recorded occurences.",
+          "axis": {
+            "orient": "top",
+            "format": ",.0f",
+            "tickCount": 4,
+            "gridDash": [
+              3,
+              4
+            ],
+            "domain": false
+          }
+        }
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "color": "#D4A72C",
+            "height": 16
+          },
+          "encoding": {
+            "tooltip": [
+              {
+                "field": "weed",
+                "type": "nominal",
+                "title": "Weed"
+              },
+              {
+                "field": "records",
+                "type": "quantitative",
+                "title": "Records",
+                "format": ","
+              }
+              
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 4,
+            "fontSize": 10,
+            "color": "#304E3B"
+          },
+          "encoding": {
+            "text": {
+              "field": "records",
+              "type": "quantitative",
+              "format": ","
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Ubuntu",
+    "axis": {
+      "labelColor": "#304E3B",
+      "titleColor": "#304E3B",
+      "gridColor": "#E1E9DC"
+    },
+    "legend": {
+      "labelColor": "#304E3B",
+      "titleColor": "#304E3B"
+    }
+  }
+}

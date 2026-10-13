@@ -1,0 +1,7 @@
+status,species,status_order,category
+Extinct,35,1,Extinct
+Extinct in the wild,0,2,Extinct
+Critically Endangered,309,3,Threatened
+Endangered,615,4,Threatened
+Vulnerable,563,5,Threatened
+Conservation dependent,0,6,Threatened

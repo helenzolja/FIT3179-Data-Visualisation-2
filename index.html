@@ -130,49 +130,178 @@
 
                     <div id="flora_share_map"></div>
 
-                    <p class="chart-note">
-                        Select a flora category using the dropdown menu.
-                        Darker shades represent higher percentages.
-                    </p>
-
                     <p class="chart-source">
-                        Source: Australian flora statistics (1992).
+                        Source:
+                        <a href="https://www.anbg.gov.au/aust-veg/australian-flora-statistics.html"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            Australian flora statistics
+                        </a>
+                        (1992).
                     </p>
 
                 </div>
-
-
                 <!-- RIGHT: EXPLANATORY TEXT -->
                 <div class="screen-text">
 
-                    <h3>Native and Naturalised Flora Across Australia</h3>
-
                     <p>
-                        Australia's plant diversity varies across states
-                        and territories, reflecting differences in climate,
-                        geography and environmental conditions.
+                        As observed from the flora distribution map, Queensland (QLD) and Western Australia (WA) exhibit half of Australia's native plants,
+                        while naturalised or introduced species cluster in the south-east around New South Wales (NSW).
+                        In comparison, Tasmania (TAS) contain the smaller percentage of flora, both native or naturalised. 
                     </p>
 
                     <p>
-                        Native flora refers to plant species that occur
-                        naturally in Australia, while naturalised flora
-                        consists of introduced species that have established
-                        self-sustaining populations.
+                        Since QLD and WA coast a diverse range of climates, more plant species are likely to grow there, supported by its
+                        vast isolated landscapes with less human interference. In contrast, TAS has a cooler climate and is geographically seperated from the mainland,
+                        reducing chances of plant species to disperse and establish there. NSW has a higher percentage of naturalised plants as it was settled first,
+                        coasting a long history of European settlement, ports and agriculture that allowed for the introduction of non-native species. 
                     </p>
-
                     <p>
-                        This map compares the reported percentages of
-                        native and naturalised flora across seven Australian
-                        states and territories using historical data
-                        from 1992.
+                        The butterfy chart below show the largest plant families within Australia and the number of respective
+                        native genera and species within each family.
                     </p>
 
                 </div>
 
             </div>
 
+ <section class="paragraph-section">
+ 
+            <h3>Australia's Largest Plant Families</h3>
+ 
+            <div class="chart-panel">
+ 
+                <div id="butterflychart_genus_species"></div>
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.anbg.gov.au/aust-veg/australian-flora-statistics.html"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Australian National Botanic Gardens
+                    </a>
+                    (1992).
+                </p>
+ 
+            </div>
+ 
+        </section>
+         <!-- Chart 4: choropleth of a chosen genus by month (full width) -->
+        <section class="paragraph-section">
+
+            <h3>Where Is Native Plant Genera Most Prominent?</h3>
+
+            <div class="chart-panel">
+
+                <div id="genera_2025_chloropleth"></div>
+
+                <p class="chart-note">
+                    <i>Note: Drag the slider to move through the months and use
+                    the dropdown to pick a plant group. Grey = no sightings.</i>
+                </p>
+
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">
+                        Atlas of Living Australia
+                    </a>
+                    (2025).
+                </p>
+
+            </div>
+
+        </section>
+                <!-- Chart: vegetation waffle + National Reserve System callouts (full width) -->
+        <section class="paragraph-section">
+
+            <h3>Placeholder title (geographical structure)</h3>
+
+            <div class="chart-panel">
+
+                <div id="vegetation_waffle"></div>
+
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.anbg.gov.au/aust-veg/australian-flora-statistics.html"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Australian National Botanic Gardens
+                    </a>
+                </p>
+
+            </div>
+
+        </section>
+        <!-- Chart: UpSet-style weeds chart (full width) -->
+        <section class="paragraph-section">
+
+            <h3>Weed distribution within plants.</h3>
+
+            <div class="chart-panel">
+
+                <div id="weed_chart"></div>
+
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">
+                        Atlas of Living Australia
+                    </a>
+                </p>
+
+            </div>
+
         </section>
 
+
+                <!-- Chart: ridgeline area chart, when weeds are recorded (full width) -->
+        <section class="paragraph-section">
+
+
+            <div class="chart-panel">
+
+                <div id="monthly_weed_chart"></div>
+
+                <p class="chart-note">
+                    <i>
+                    Note: African Boxthorn's
+                    August peak is largely due to one large survey on a single day.
+                    Hover for details.</i>
+                </p>
+
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">
+                        Atlas of Living Australia
+                    </a>
+                </p>
+
+            </div>
+
+        </section>
+
+                <!-- Chart: EPBC threatened flora by status (bar chart) -->
+        <section class="paragraph-section">
+
+            <h3>Conservation Status </h3>
+
+            <div class="screen-text">
+                <p>
+    
+                </p>
+            </div>
+
+            <div class="chart-panel">
+
+                <div id="conservation_status"></div>
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.environment.gov.au/cgi-bin/sprat/public/publicthreatenedlist.pl?wanted=flora" target="_blank" rel="noopener noreferrer">
+                        DCCEEW, EPBC Act List of Threatened Flora
+                    </a>
+                </p>
+
+            </div>
+
+        </section>
     </main>
 
 

@@ -1,45 +1,56 @@
 
+/* =========================================================
+   style.css – Exploring Australian Native Plants
+   Colour palette (used throughout this file):
+     #304E3B  dark green  – main text and headings
+     #405D49  mid green   – paragraph text
+     #607464  grey-green  – notes and sources
+     #DCE7D7  pale green  – page background
+     #B5C9B3  soft green  – borders
+   ========================================================= */
+
+
 /* GENERAL PAGE STYLE */
 
+/* Element selector: sets the default font, size, colour and
+   line spacing for the whole page. Child elements inherit
+   these, so they don't need repeating further down. */
 body {
     margin: 0;
-    padding: 0;
     background-color: #DCE7D7;
     color: #304E3B;
     font-family: "Ubuntu", sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    background-image: url("images/plant.png");
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 280px auto;
 }
 
-/* HERO SECTION */
+/* Element selector: every h2 and h3 uses the same heading
+   typeface (Google Font loaded in index.html). */
+h2,
+h3 {
+    font-family: "Roboto Slab", serif;
+}
+
+
+/* HERO SECTION (page title at the top) */
 
 .hero {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px;          /* same width as the white content box */
+    margin: 0 auto;             /* centres the hero on the page */
     padding: 40px 30px 30px;
-    box-sizing: border-box;
+    box-sizing: border-box;     /* padding is included in the width */
 }
 
 .hero h1 {
     font-family: "Bricolage Grotesque", sans-serif;
     font-size: 3rem;
     margin: 0 0 10px;
-    color: #304E3B;
-}
-
-.hero p {
-    font-size: 1.1rem;
-    margin: 0;
-    color: #52705A;
 }
 
 
 /* ONE CONTINUOUS WHITE BACKGROUND */
 
+/* White card that holds every section of the story. */
 .content-container {
     max-width: 1200px;
     margin: 0 auto 60px;
@@ -53,52 +64,52 @@ body {
 
 /* MAIN CONTENT SECTIONS */
 
+/* Space between one section and the next. */
 .paragraph-section {
     margin: 0 0 50px;
-    padding: 0;
 }
 
+/* No extra space under the final section. */
 .paragraph-section:last-child {
     margin-bottom: 0;
 }
 
 .paragraph-section h2 {
-    font-family: "Roboto Slab", serif;
     font-size: 2rem;
     margin: 0 0 22px;
-    color: #304E3B;
 }
 
 
 /* TWO-COLUMN LAYOUT */
 
+/* Places text and chart side by side in two equal columns.
+   Whichever comes first in index.html sits on the left, so put
+   the chart first for "chart left, text right", and the text
+   first for "text left, chart right". Alternating sides down
+   the page keeps it from looking repetitive.
+   minmax(0, 1fr) stops a wide chart from pushing its column
+   wider than half the page. align-items: center lines the
+   shorter column up with the middle of the taller one, so
+   there is no empty gap under short text. */
 .screen-split {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 35px;
-    align-items: start;
+    align-items: center;
 }
 
 
 /* EXPLANATORY TEXT */
 
-.screen-text {
-    min-width: 0;
-}
-
 .screen-text h3 {
-    font-family: "Roboto Slab", serif;
     font-size: 1.5rem;
     margin: 0 0 15px;
-    color: #304E3B;
 }
 
+/* Font, size and line spacing come from body; only the
+   differences are set here. */
 .screen-text p {
-    font-family: "Ubuntu", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
     letter-spacing: 0.05em;
-    line-height: 1.6;
     margin: 0 0 14px;
     color: #405D49;
 }
@@ -110,93 +121,95 @@ body {
 
 /* CHART PANEL */
 
-.chart-panel {
-    background-color: transparent;
-    padding: 0;
-    margin: 0;
-    min-width: 0;
-}
-
+/* Chart title, centred above each chart. */
 .chart-panel h3 {
-    font-family: "Roboto Slab", serif;
     font-size: 1.4rem;
     margin: 0 0 12px;
     text-align: center;
-    color: #304E3B;
 }
 
 
 /* VEGA-LITE CHART CONTAINERS */
 
-#aus_flora_estimates_chart,
-#flora_share_map {
+/* Two class selectors, added to the <div> that vegaEmbed() draws
+   each chart into (see script.js). New charts only need the
+   right class in index.html; no new CSS is needed. */
+
+/* .chart-full: large charts (maps, butterfly, waffles, UpSet,
+   ridgeline) that need the whole width of the white box.
+   text-align centres them because Vega draws charts as inline
+   elements. If the screen is narrower than the chart, it scrolls
+   inside its own box instead of making the page scroll sideways. */
+.chart-full {
+    display: block;
+    text-align: center;
+    overflow-x: auto;
+}
+
+/* .chart-half: smaller charts that sit in one column of a
+   .screen-split, next to the writing. These charts use
+   "width": "container" in their JSON, so Vega-Lite shrinks or
+   stretches them to fill exactly the column they are in. */
+.chart-half {
     width: 100%;
-    display: flex;
-    justify-content: center;
 }
 
-#aus_flora_estimates_chart .vega-embed,
-#flora_share_map .vega-embed {
-    max-width: 100%;
+/* The .vega-embed box Vega creates inside the div must also be
+   full width, or "container" has nothing to measure. */
+.chart-half .vega-embed {
+    width: 100%;
 }
-
-#aus_flora_estimates_chart svg,
-#flora_share_map svg {
-    max-width: 100%;
-    height: auto;
-}
-
 
 /* CHART TEXT AND SOURCES */
 
-.chart-subtitle {
-    font-size: 0.9rem;
-    color: #607464;
-    text-align: center;
-    margin: 0 0 15px;
-}
-
-.chart-note {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    text-align: center;
-    color: #607464;
+/* Small grey text shown underneath each chart. */
+.chart-note,
+.chart-explanation,
+.chart-source {
     margin: 15px 0 0;
+    color: #607464;
 }
 
+.chart-note,
 .chart-explanation {
     font-size: 0.85rem;
-    line-height: 1.6;
+}
+
+.chart-note,
+.chart-source {
+    text-align: center;
+}
+
+/* The explanation sits closer to the main text, so it uses
+   the darker paragraph colour. */
+.chart-explanation {
     color: #405D49;
-    margin: 15px 0 0;
 }
 
 .chart-source {
     font-size: 0.8rem;
-    line-height: 1.6;
-    text-align: center;
-    color: #607464;
-    margin: 15px 0 0;
 }
 
 .chart-source a {
     color: #356A4B;
-    text-decoration: underline;
 }
 
 
 /* VEGA-LITE DROPDOWN */
 
-#flora_share_map .vega-bindings {
-    font-family: "Ubuntu", sans-serif;
+/* .vega-bindings is the box Vega-Lite creates for any input
+   bound to a param (dropdowns, sliders). Styling the class
+   means every future chart's dropdown matches automatically. */
+.vega-bindings {
     font-size: 0.9rem;
-    color: #304E3B;
     margin-top: 12px;
     text-align: center;
 }
 
-#flora_share_map select {
-    font-family: "Ubuntu", sans-serif;
+/* Dropdown menus don't inherit fonts by default, so
+   "inherit" makes them use Ubuntu like the rest of the page. */
+.vega-bindings select {
+    font-family: inherit;
     font-size: 0.9rem;
     padding: 6px 10px;
     border: 1px solid #B5C9B3;
@@ -206,8 +219,26 @@ body {
 }
 
 
+/* FOOTER (author, date, sources) */
+
+.page-footer {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 30px;
+    box-sizing: border-box;
+    font-size: 0.85rem;
+    color: #405D49;
+}
+
+.page-footer a {
+    color: #356A4B;
+}
+
+
 /* RESPONSIVE DESIGN */
 
+/* On screens narrower than 1000px, stack text and chart in
+   one column so nothing scrolls sideways. */
 @media (max-width: 1000px) {
 
     .screen-split {
@@ -225,3 +256,27 @@ body {
 
 }
 
+
+/* MONTH SLIDER UNDER THE CHOROPLETH */
+
+/* The month names are drawn by Vega-Lite as a strip under the map.
+   These rules stretch the slider to the same width as that strip
+   (845px chart - one 65px month cell + ~16px slider thumb), so each
+   month name sits directly above its slider position. The number
+   Vega shows next to the slider is hidden because the strip already
+   shows the month name. */
+#genera_2025_chloropleth .vega-bindings {
+    text-align: center;
+}
+
+#genera_2025_chloropleth input[type="range"] {
+    width: 796px;
+    margin: 0 0 14px;
+    accent-color: #C4561B;
+}
+
+#genera_2025_chloropleth input[type="range"] + span,
+#genera_2025_chloropleth input[type="range"] ~ span,
+#genera_2025_chloropleth .vega-bind:has(input[type="range"]) .vega-bind-name {
+    display: none;
+}
