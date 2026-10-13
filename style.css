@@ -1,3 +1,4 @@
+
 /* =========================================================
    style.css – Exploring Australian Native Plants
    Colour palette (used throughout this file):
@@ -82,6 +83,10 @@ h3 {
 /* TWO-COLUMN LAYOUT */
 
 /* Places text and chart side by side in two equal columns.
+   Whichever comes first in index.html sits on the left, so put
+   the chart first for "chart left, text right", and the text
+   first for "text left, chart right". Alternating sides down
+   the page keeps it from looking repetitive.
    minmax(0, 1fr) stops a wide chart from pushing its column
    wider than half the page. align-items: center lines the
    shorter column up with the middle of the taller one, so
@@ -126,28 +131,34 @@ h3 {
 
 /* VEGA-LITE CHART CONTAINERS */
 
-/* ID selectors: the <div>s that vegaEmbed() draws each chart
-   into (see script.js). Flexbox centres each chart in its
-   half-width column. Add each new side-by-side chart's id here. */
-#aus_flora_estimates_chart,
-#flora_share_map {
-    display: flex;
-    justify-content: center;
-}
+/* Two class selectors, added to the <div> that vegaEmbed() draws
+   each chart into (see script.js). New charts only need the
+   right class in index.html; no new CSS is needed. */
 
-/* Full-width charts (butterfly chart, monthly choropleth): centred
-   with text-align, because Vega draws charts as inline elements.
-   If the screen is narrower than the chart, it scrolls inside
-   its own box instead of making the whole page scroll sideways. */
-#family_share_butterfly,
-#vegetation_waffle,
-#weed_chart,
-#genera_2025_chloropleth {
+/* .chart-full: large charts (maps, butterfly, waffles, UpSet,
+   ridgeline) that need the whole width of the white box.
+   text-align centres them because Vega draws charts as inline
+   elements. If the screen is narrower than the chart, it scrolls
+   inside its own box instead of making the page scroll sideways. */
+.chart-full {
     display: block;
     text-align: center;
     overflow-x: auto;
 }
 
+/* .chart-half: smaller charts that sit in one column of a
+   .screen-split, next to the writing. These charts use
+   "width": "container" in their JSON, so Vega-Lite shrinks or
+   stretches them to fill exactly the column they are in. */
+.chart-half {
+    width: 100%;
+}
+
+/* The .vega-embed box Vega creates inside the div must also be
+   full width, or "container" has nothing to measure. */
+.chart-half .vega-embed {
+    width: 100%;
+}
 
 /* CHART TEXT AND SOURCES */
 
@@ -254,18 +265,18 @@ h3 {
    month name sits directly above its slider position. The number
    Vega shows next to the slider is hidden because the strip already
    shows the month name. */
-#genera_month_choropleth .vega-bindings {
+#genera_2025_chloropleth .vega-bindings {
     text-align: center;
 }
 
-#genera_month_choropleth input[type="range"] {
+#genera_2025_chloropleth input[type="range"] {
     width: 796px;
     margin: 0 0 14px;
     accent-color: #C4561B;
 }
 
-#genera_month_choropleth input[type="range"] + span,
-#genera_month_choropleth input[type="range"] ~ span,
-#genera_month_choropleth .vega-bind:has(input[type="range"]) .vega-bind-name {
+#genera_2025_chloropleth input[type="range"] + span,
+#genera_2025_chloropleth input[type="range"] ~ span,
+#genera_2025_chloropleth .vega-bind:has(input[type="range"]) .vega-bind-name {
     display: none;
 }

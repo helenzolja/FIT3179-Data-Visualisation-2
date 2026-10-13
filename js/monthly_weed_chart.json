@@ -1,0 +1,119 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Ridgeline area chart: when listed weeds were recorded in 2025. Each ridge is one weed; height = share of that weed's 2025 records made in each month. Plants are kept only if they appear on an official weed or pest list (lookup to the ALA weed lists), so native plants such as Common Bracken drop out. Rows are ordered by peak month.",
+  "background": null,
+  "data": {
+    "url": "data/ALA_2025_top_10_vernacular_plants_monthly.csv",
+    "format": {"parse": {"month": "number", "occurrenceCount": "number", "totalOccurrenceCount": "number"}}
+  },
+  "transform": [
+    {
+      "lookup": "vernacularName",
+      "from": {
+        "data": {"url": "data/plant_weeds_pests_with_names.csv"},
+        "key": "vernacular_name",
+        "fields": ["source_list"]
+      }
+    },
+    {"filter": "isValid(datum.source_list)"},
+    {"calculate": "datum.occurrenceCount / datum.totalOccurrenceCount * 100", "as": "share"},
+    {
+      "calculate": "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][datum.month - 1]",
+      "as": "month_name"
+    },
+    {
+      "joinaggregate": [{"op": "max", "field": "share", "as": "peak_share"}],
+      "groupby": ["vernacularName"]
+    },
+    {"calculate": "datum.share == datum.peak_share ? datum.month : null", "as": "peak_month_value"},
+    {
+      "joinaggregate": [{"op": "max", "field": "peak_month_value", "as": "peak_month"}],
+      "groupby": ["vernacularName"]
+    },
+    {"calculate": "format(datum.share, '.0f') + '% in ' + datum.month_name", "as": "peak_label"}
+  ],
+  "title": {
+    "text": "Total weed records in 2025",
+    "subtitle": [
+      "Share of each weed's 2025 records made in each month. Dots mark the busiest month."
+
+    ],
+    "anchor": "start",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "color": "#304E3B",
+    "subtitleColor": "#607464",
+    "offset": 16
+  },
+  "facet": {
+    "row": {
+      "field": "vernacularName",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "peak_month", "op": "max", "order": "ascending"},
+      "header": {"labels": false}
+    }
+  },
+  "spacing": -22,
+  "spec": {
+    "width": 680,
+    "height": 46,
+    "encoding": {
+      "x": {
+        "field": "month",
+        "type": "quantitative",
+        "title": "Month (2025)",
+        "scale": {"domain": [1, 12], "nice": false},
+        "axis": {
+          "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+          "labelExpr": "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][datum.value - 1]",
+          "grid": true,
+          "gridDash": [3, 4],
+          "domain": false,
+          "ticks": false,
+          "labelPadding": 8
+        }
+      },
+      "y": {
+        "field": "share",
+        "type": "quantitative",
+        "scale": {"domain": [0, 60], "range": [46, -40]},
+        "axis": null
+      },
+      "tooltip": [
+        {"field": "vernacularName", "type": "nominal", "title": "Weed"},
+        {"field": "month_name", "type": "nominal", "title": "Month"},
+        {"field": "occurrenceCount", "type": "quantitative", "title": "Records", "format": ","},
+        {"field": "share", "type": "quantitative", "title": "% of weed's 2025 records", "format": ".1f"}
+      ]
+    },
+    "layer": [
+      {
+        "mark": {"type": "area", "interpolate": "monotone", "color": "#D4A72C", "fillOpacity": 0.75, "stroke": "#B8860B", "strokeWidth": 1.2}
+      },
+      {
+        "transform": [{"filter": "datum.share == datum.peak_share"}],
+        "mark": {"type": "circle", "size": 45, "color": "#7A5A06", "opacity": 1}
+      },
+      {
+        "transform": [{"filter": "datum.share == datum.peak_share"}],
+        "mark": {"type": "text", "align": "left", "dx": 7, "dy": -2, "fontSize": 10.5, "color": "#7A5A06"},
+        "encoding": {"text": {"field": "peak_label", "type": "nominal"}}
+      },
+      {
+        "transform": [{"filter": "datum.share == datum.peak_share"}],
+        "mark": {"type": "text", "align": "right", "baseline": "bottom", "fontSize": 12, "color": "#304E3B"},
+        "encoding": {
+          "text": {"field": "vernacularName", "type": "nominal"},
+          "x": {"value": -12},
+          "y": {"value": 46}
+        }
+      }
+    ]
+  },
+  "config": {
+    "view": {"stroke": null},
+    "font": "Ubuntu",
+    "axis": {"labelColor": "#304E3B", "titleColor": "#304E3B", "gridColor": "#E1E9DC"}
+  }
+}

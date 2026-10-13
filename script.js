@@ -15,3 +15,9 @@ vegaEmbed("#vegetation_waffle", vg_5).catch(console.error);
 
 var vg_6 = "js/weed_chart.json";
 vegaEmbed("#weed_chart", vg_6).catch(console.error);
+
+var vg_7 = "js/monthly_weed_chart.json";
+vegaEmbed("#monthly_weed_chart", vg_7).catch(console.error);
+
+var vg_8 = "js/conservation_status.json";
+vegaEmbed("#conservation_status", vg_8).catch(console.error);

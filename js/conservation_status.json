@@ -1,0 +1,73 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bar chart: number of plant taxa on the EPBC Act List of Threatened Flora, by status, ordered from most to least severe. Labels show the count and the share of the whole list. Data: DCCEEW EPBC Act List of Threatened Flora (SPRAT).",
+  "background": null,
+  "width": 560,
+  "height": {"step": 46},
+  "title": {
+    "text": "EPBC Act List of Threatened Flora",
+    "subtitle": "Plants listed under the EPBC Act, by status (most severe at the top). Labels show the count and % of the list.",
+    "anchor": "start",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "color": "#304E3B",
+    "subtitleColor": "#607464",
+    "offset": 14
+  },
+  "data": {
+    "url": "data/epbc_threatened_flora_list.csv",
+    "format": {"parse": {"species": "number", "status_order": "number"}}
+  },
+  "transform": [
+    {"joinaggregate": [{"op": "sum", "field": "species", "as": "total"}]},
+    {"filter": "datum.species > 0"},
+    {"calculate": "datum.species / datum.total * 100", "as": "share"},
+    {"calculate": "format(datum.species, ',') + '  (' + format(datum.share, '.0f') + '%)'", "as": "bar_label"}
+  ],
+  "encoding": {
+    "y": {
+      "field": "status",
+      "type": "nominal",
+      "title": null,
+      "sort": {"field": "status_order", "op": "min", "order": "ascending"},
+      "axis": {"ticks": false, "domain": false, "labelPadding": 10, "labelFontSize": 12, "labelLimit": 220}
+    },
+    "x": {
+      "field": "species",
+      "type": "quantitative",
+      "title": "Number of listed plants (species, subspecies and populations)",
+      "scale": {"domain": [0, 700]},
+      "axis": {"gridDash": [3, 4], "domain": false, "tickCount": 7, "format": ",.0f"}
+    },
+    "tooltip": [
+      {"field": "status", "type": "nominal", "title": "Status"},
+      {"field": "species", "type": "quantitative", "title": "Listed plants", "format": ","},
+      {"field": "share", "type": "quantitative", "title": "% of threatened flora list", "format": ".1f"}
+    ]
+  },
+  "layer": [
+    {
+      "mark": {"type": "bar", "height": 26, "cornerRadiusEnd": 2},
+      "encoding": {
+        "color": {
+          "field": "status",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Extinct", "Critically Endangered", "Endangered", "Vulnerable"],
+            "range": ["#2B2B2B", "#67000D", "#B8202E", "#FB9A3D"]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 12, "color": "#304E3B"},
+      "encoding": {"text": {"field": "bar_label", "type": "nominal"}}
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "font": "Ubuntu",
+    "axis": {"labelColor": "#304E3B", "titleColor": "#304E3B", "gridColor": "#E1E9DC"}
+  }
+}
