@@ -317,24 +317,37 @@ h3 {
 
 /* CHART WITH PICTURE NOTES BESIDE IT */
 
-/* The chart keeps its own width on the left; picture notes fill the
-   space on the right instead of leaving it empty. */
+/* Flexbox with wrapping: the chart keeps its own width, and the notes
+   sit beside it when there is room. When the window is too narrow
+   (smaller laptop, zoomed-in or different browser), the notes drop
+   underneath the chart as a row of cards instead of squashing the
+   chart or stretching the photos. */
 .chart-with-aside {
-    display: grid;
-    grid-template-columns: auto minmax(200px, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
     gap: 28px;
-    align-items: start;
 }
 
 .chart-with-aside .chart-full {
+    flex: 0 0 auto;                 /* chart never shrinks */
     width: auto;
+    max-width: 100%;
 }
 
 .chart-aside {
-    display: flex;
-    flex-direction: column;
+    flex: 1 1 240px;                /* notes take the space that is left */
+    min-width: 240px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 16px;
     padding-top: 40px;              /* lines the first note up with the top of the chart */
+}
+
+/* Beside the chart the notes stack; underneath it they sit side by
+   side, but never wider than 380px each, so photos keep their shape. */
+.chart-aside > * {
+    max-width: 380px;
 }
 
 
@@ -350,18 +363,27 @@ h3 {
     overflow: hidden;
 }
 
-/* The pale green box shows until a picture is added. */
+/* The pale green box shows until a picture is added. Every photo is
+   cropped to the same 16:10 shape, whatever size or orientation the
+   original file is, so portrait and landscape photos line up. */
 .photo-slot {
     position: relative;
-    height: 140px;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
     background: linear-gradient(135deg, #E3EEDF, #B5C9B3);
 }
 
 .photo-slot img {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: block;
     width: 100%;
     height: 100%;
+    max-width: none;
     object-fit: cover;
+    object-position: center;
 }
 
 /* Text shown inside an empty photo slot (added by script.js when a
@@ -432,7 +454,6 @@ h3 {
 }
 
 .genus-panel .photo-slot {
-    height: 170px;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 14px rgba(48, 78, 59, 0.14);
@@ -494,7 +515,6 @@ h3 {
     .screen-split.chart-left,
     .screen-split.chart-right,
     .section-intro,
-    .chart-with-aside,
     .genus-panel {
         grid-template-columns: 1fr;
         gap: 24px;
@@ -515,5 +535,9 @@ h3 {
 
     .chart-aside {
         padding-top: 0;
+    }
+
+    .genus-panel .photo-slot {
+        max-width: 360px;
     }
 }
