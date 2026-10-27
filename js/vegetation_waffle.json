@@ -36,10 +36,9 @@
     {"calculate": "floor((datum.position - 1) / 40)", "as": "row"}
   ],
   "title": {
-    "text": "What covers Australia today?",
+    "text": "Australia's vegetation divide.",
     "subtitle": [
-      "Present-day vegetation by structural type. Each square = 0.1% of Australia (about 7,700 sq km).",
-      "Woodlands and shrublands cover more than three-quarters of the continent; forests cover about 5%."
+      "Each square = 0.1% of Australia (about 7,700 sq km)."
     ],
     "anchor": "start",
     "fontSize": 16,

@@ -5,10 +5,9 @@
   "height": 420,
   "background": null,
   "title": {
-    "text": "Where were Victoria's native plants observed in 2025?",
+    "text": "Total native plant observations in Victoria, 2025.",
     "subtitle": [
-      "Each square is about 10 km across and is coloured by its number of native plant observations.",
-      "Dark green symbols mark major national parks and botanic gardens."
+      "Each square is about 10 km across and is coloured by its number of native plant observations."
     ],
     "anchor": "start",
     "fontSize": 15,

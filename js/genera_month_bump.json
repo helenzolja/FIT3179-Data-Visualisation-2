@@ -3,11 +3,7 @@
   "description": "Heatmap + seasonal rose chart for one native plant genus (chosen in the dropdown), 2025 ALA plant records. The heatmap shows records by state and month, with states in a fixed order. The rose chart adds all states together: one wedge per month, wedge area beyond the centre hole proportional to the genus's records that month, coloured by southern-hemisphere season (summer gold, autumn rust, winter blue, spring green). Data: data/genus_state_month_2025.csv.",
   "background": null,
   "title": {
-    "text": {"expr": "'When and where is ' + Genus_selection + ' recorded? (2025)'"},
-    "subtitle": [
-      "Left: records for the chosen genus by state and month (darker = more records).",
-      "Right: all states added together, one wedge per month, coloured by season. Choose a genus in the dropdown."
-    ],
+    "text": {"expr": "' Total ' + Genus_selection + ' records in 2025'"},
     "anchor": "start",
     "fontSize": 15,
     "subtitleFontSize": 12,
