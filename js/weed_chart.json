@@ -93,7 +93,7 @@
         "x": {
           "field": "list_position",
           "type": "quantitative",
-          "title": "Weed or pest list",
+          "title": "Weed list",
           "scale": {
             "domain": [
               -0.5,

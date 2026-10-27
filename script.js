@@ -40,7 +40,9 @@ function addViewSpecLink(chartId, specFile) {
     var panel = document.querySelector(chartId).closest(".chart-panel");
     var line = document.createElement("p");
     line.className = "view-spec";
-    line.innerHTML = '<a href="' + specFile + '" target="_blank" rel="noopener noreferrer">View spec</a>';
+    line.innerHTML = '<a href="' + specFile + '" target="_blank" rel="noopener noreferrer"'
+        + ' title="Open this chart\'s Vega-Lite JSON file in a new tab">'
+        + '<span class="view-spec-icon">{ }</span>View Vega-Lite spec<span class="view-spec-arrow">↗</span></a>';
     panel.appendChild(line);
 }
 
@@ -54,12 +56,12 @@ function addViewSpecLink(chartId, specFile) {
 var genera = {
     "Acacia": {
         common: "Wattles",
-        photo: "images/genera/acacia.jpg",
+        photo: "images/genera/acacia.jpeg",
         fact: "Australia's largest plant genus, with around 1,000 species. The Golden Wattle (Acacia pycnantha) is Australia's national floral emblem."
     },
     "Banksia": {
         common: "Banksias",
-        photo: "images/genera/banksia.jpg",
+        photo: "images/genera/banksia.jpeg",
         fact: "Named after the botanist Joseph Banks. Almost all banksias are found only in Australia, with the most species in south-west Western Australia."
     },
     "Caladenia": {
@@ -89,17 +91,17 @@ var genera = {
     },
     "Lomandra": {
         common: "Mat-rushes",
-        photo: "images/genera/lomandra.jpg",
+        photo: "images/genera/lomandra.jpeg",
         fact: "Tough, grass-like plants found across Australia. Aboriginal people have used the long leaves for weaving baskets and mats."
     },
     "Pterostylis": {
         common: "Greenhoods",
-        photo: "images/genera/pterostylis.jpg",
+        photo: "images/genera/pterostylis.jpeg",
         fact: "Orchids with a green hood over the flower. In many species, a touch-sensitive lip flicks a visiting insect inside, where it picks up pollen as it escapes."
     },
     "Pultenaea": {
         common: "Bush-peas",
-        photo: "images/genera/pultenaea.jpg",
+        photo: "images/genera/Pultenaea.jpg",
         fact: "Shrubs with yellow-and-red pea flowers, often called 'egg and bacon' flowers. Most species flower in spring."
     }
 };

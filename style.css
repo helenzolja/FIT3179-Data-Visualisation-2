@@ -1,12 +1,13 @@
 /* =========================================================
    style.css – Exploring Australian Native Plants
 
-   A simple, predictable layout that looks the same on every screen:
-   - one white content box, never wider than 1200px, centred
+   A FIXED layout that looks exactly the same on every screen:
+   - one white content box, always 1200px wide, centred on big screens
+   - nothing moves, shrinks or grows with the window; on a screen
+     narrower than the page, the whole page scrolls sideways instead
    - every section: number -> heading -> writing -> chart -> notes
    - everything is left-aligned
-   - charts keep their normal size; if the screen is narrower than a
-     chart, that chart scrolls sideways inside its own area
+   - every chart is always drawn at its normal size
    - picture/text notes sit beside their chart and fill the rest of
      the row
 
@@ -32,6 +33,7 @@
 }
 
 body {
+    min-width: 1248px;               /* page width + margins: smaller screens scroll sideways */
     margin: 0;
     background-color: #DCE7D7;
     color: #304E3B;
@@ -47,54 +49,34 @@ h3 {
 }
 
 
-/* HERO (page title at the top, on the pale green page) */
+/* HERO (page title at the top) */
 
 .hero {
-    position: relative;
-    z-index: 1;                      /* in front of the ivy */
-    padding: 64px 24px 44px;
+    width: 1200px;
+    margin: 0 auto;
+    padding: 56px 48px 36px;
     text-align: center;
 }
 
 .hero h1 {
     font-family: "Bricolage Grotesque", sans-serif;
     font-size: 3rem;
+    font-weight: 700;
     line-height: 1.15;
+    letter-spacing: -0.01em;
     margin: 0;
     color: #304E3B;
 }
 
-
-/* IVY DECORATION */
-
-/* The same ivy photo hangs from the top-left and (mirrored) the
-   top-right of the page. It scrolls away with the page, and sits
-   behind the title and the white content box. */
-html {
-    overflow-x: hidden;              /* the ivy never causes sideways scrolling */
-}
-
-body {
-    position: relative;
-}
-
-.vine {
-    position: absolute;
-    top: 0;
-    z-index: 0;
-    width: clamp(160px, 22vw, 340px);
-    height: auto;
-    pointer-events: none;
-    user-select: none;
-}
-
-.vine-left {
-    left: 0;
-}
-
-.vine-right {
-    right: 0;
-    transform: scaleX(-1);           /* mirror image, so it hangs inwards */
+/* A short line under the title. */
+.hero h1::after {
+    content: "";
+    display: block;
+    width: 72px;
+    height: 4px;
+    margin: 18px auto 0;
+    border-radius: 2px;
+    background-color: #527A58;
 }
 
 
@@ -102,9 +84,7 @@ body {
 
 .content-container {
     position: relative;
-    z-index: 1;                      /* in front of the ivy */
-    width: calc(100% - 48px);        /* always a gap at the screen edges */
-    max-width: 1200px;
+    width: 1200px;                   /* fixed width on every screen */
     margin: 0 auto 48px;
     padding: 48px;
     background-color: #FFFFFF;
@@ -188,10 +168,7 @@ body {
     color: #607464;
 }
 
-/* The chart itself, at its normal size. If its column is narrower
-   than the chart, the chart (an SVG, so it stays sharp) shrinks evenly
-   to fit. Vega finds what the mouse is over from the shape itself, so
-   tooltips and clicks still work on a shrunk chart. */
+/* The chart itself, always at its normal size (SVG, so it stays sharp). */
 .chart-full,
 .chart-half {
     width: 100%;
@@ -199,9 +176,7 @@ body {
 
 .chart-full svg,
 .chart-half svg {
-    display: block;
-    max-width: 100%;
-    height: auto;
+    display: block;                  /* always drawn at its normal size */
 }
 
 .chart-note,
@@ -243,25 +218,16 @@ body {
 /* NOTES BESIDE A CHART */
 
 /* Two fixed columns: the chart on the left at its normal width, and
-   the notes on the right filling ALL the remaining width. The notes
-   never move under the chart. If the screen is too narrow for the
-   whole chart, the chart scrolls sideways inside its own column and
-   the notes stay where they are (at least 220px wide). */
+   the notes on the right filling the rest of the 1200px box. */
 .chart-with-aside {
     display: grid;
-    grid-template-columns: minmax(0, max-content) minmax(280px, 1fr);
+    grid-template-columns: max-content minmax(240px, 1fr);
     gap: 32px;
     align-items: start;
 }
 
 .chart-with-aside .chart-full {
     min-width: 0;
-}
-
-/* For a short chart with long notes (section 10): the chart gives up
-   a little width so the notes are wider and less tall. */
-.chart-with-aside.aside-wide {
-    grid-template-columns: minmax(0, 1.4fr) minmax(360px, 1fr);
 }
 
 /* Notes stack in one column, each joined to its chart by a line. */
@@ -463,8 +429,6 @@ body {
 /* FOOTER (left-aligned, with the list of sources) */
 
 .page-footer {
-    position: relative;
-    z-index: 1;
     padding: 0 24px 48px;
     font-size: 0.85rem;
     color: #405D49;
@@ -472,8 +436,7 @@ body {
 
 /* Same width and left edge as the white content box above it. */
 .footer-inner {
-    width: calc(100% - 48px);
-    max-width: 1200px;
+    width: 1200px;
     margin: 0 auto;
     padding: 0 48px;
 }
@@ -511,21 +474,67 @@ body {
 }
 
 
-/* "VIEW SPEC" LINK UNDER EACH CHART (added by script.js) */
+/* "VIEW SPEC" BUTTON UNDER EACH CHART (added by script.js) */
 
+/* A small outlined button, the same under every chart, so readers can
+   spot it straight away: "{ } View Vega-Lite spec ↗". */
 .view-spec {
-    margin: 8px 0 0;
-    font-size: 0.8rem;
+    margin: 14px 0 0;
 }
 
 .view-spec a {
-    color: #356A4B;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px 5px 6px;
+    border: 1px solid #B5C9B3;
+    border-radius: 999px;
+    background-color: #F3F7F0;
+    color: #304E3B;
+    font-size: 0.8rem;
+    font-weight: 500;
     text-decoration: none;
-    border-bottom: 1px solid #B5C9B3;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.view-spec a:hover {
-    border-bottom-color: #356A4B;
+/* The "{ }" code symbol in a small dark circle. */
+.view-spec-icon {
+    display: inline-grid;
+    place-items: center;
+    min-width: 24px;
+    height: 20px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background-color: #304E3B;
+    color: #FFFFFF;
+    font-family: "Courier New", monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+}
+
+.view-spec-arrow {
+    font-size: 0.8rem;
+    color: #607464;
+}
+
+.view-spec a:hover,
+.view-spec a:focus-visible {
+    background-color: #304E3B;
+    border-color: #304E3B;
+    color: #FFFFFF;
+    outline: none;
+}
+
+.view-spec a:hover .view-spec-icon,
+.view-spec a:focus-visible .view-spec-icon {
+    background-color: #FFFFFF;
+    color: #304E3B;
+}
+
+.view-spec a:hover .view-spec-arrow,
+.view-spec a:focus-visible .view-spec-arrow {
+    color: #FFFFFF;
 }
 
 
@@ -605,37 +614,4 @@ body {
     font-size: 11px;
     font-weight: 700;
     line-height: 1;
-}
-
-
-/* SMALL SCREENS */
-
-/* Below 900px wide, every two-column area becomes one column. */
-@media (max-width: 900px) {
-
-    .screen-split,
-    .section-intro,
-    .genus-panel,
-    .credits-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .genus-panel .photo-slot {
-        max-width: 320px;
-    }
-
-    .hero h1 {
-        font-size: 2.3rem;
-    }
-
-    .content-container {
-        width: calc(100% - 24px);
-        padding: 28px 20px;
-    }
-
-    .footer-inner {
-        width: calc(100% - 24px);
-        padding: 0 20px;
-    }
 }

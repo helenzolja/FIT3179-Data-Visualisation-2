@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Butterfly chart: number of genera (left) and native species (right) in Australia's 13 largest plant families (1992). Data: ANBG Australian Flora Statistics.",
+  "description": "Butterfly chart: number of genera (left) and native species (right) in Australia's 13 largest plant families (1992). Data: ANBG Australian Flora Statistics. Each bar is labelled with its value.",
   "background": null,
   "data": {
     "url": "data/ANBG_largest_plant_families_1992.csv",
@@ -45,6 +45,12 @@
             ],
             "domain": false,
             "tickCount": 4
+          },
+          "scale": {
+            "domain": [
+              0,
+              175
+            ]
           }
         }
       },
@@ -68,6 +74,21 @@
                 "title": "Number of genera"
               }
             ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -4,
+            "fontSize": 10.5,
+            "color": "#2F6EA5"
+          },
+          "encoding": {
+            "text": {
+              "field": "australia_genera",
+              "type": "quantitative"
+            }
           }
         }
       ]
@@ -133,6 +154,12 @@
             "domain": false,
             "tickCount": 4,
             "format": ",.0f"
+          },
+          "scale": {
+            "domain": [
+              0,
+              1900
+            ]
           }
         }
       },
@@ -157,6 +184,22 @@
                 "format": ","
               }
             ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 4,
+            "fontSize": 10.5,
+            "color": "#C4561B"
+          },
+          "encoding": {
+            "text": {
+              "field": "australia_native_species",
+              "type": "quantitative",
+              "format": ","
+            }
           }
         }
       ]

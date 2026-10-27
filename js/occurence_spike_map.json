@@ -1,64 +1,350 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Spike map: 2025 ALA plant occurrence records across Australia, grouped into 1-degree squares (about 110 km). Each spike rises from the centre of its square; spike height is proportional to the number of records. Uses the same counts as the bin map (data/occurrence_grid_2025.csv, 0.5-degree squares merged into 1-degree squares here). Spikes are drawn with a see-through fill and a darker outline, southern spikes in front, so overlapping spikes stay visible. Reference spikes for 10,000, 25,000 and 50,000 records sit in a legend panel beside the map, on the same scale and baseline as the map spikes.",
+  "description": "Spike map: 2025 ALA plant occurrence records across Australia, grouped into 1-degree squares (about 110 km). Each spike rises from the centre of its square; spike height is proportional to the number of records. Uses the same counts as the bin map (data/occurrence_grid_2025.csv, 0.5-degree squares merged into 1-degree squares here). Spikes are drawn with a see-through fill and a darker outline, southern spikes in front, so overlapping spikes stay visible. Reference spikes for 10,000, 25,000 and 50,000 records sit in a legend panel beside the map, on the same scale and baseline as the map spikes. The tallest spike near each capital city is labelled with its number of records.",
   "background": "white",
-  "params": [{"name": "spike_px", "value": 0.004}, {"name": "px_per_degree", "value": 17.1}],
+  "params": [
+    {
+      "name": "spike_px",
+      "value": 0.004
+    },
+    {
+      "name": "px_per_degree",
+      "value": 17.1
+    }
+  ],
   "hconcat": [
     {
       "width": 640,
       "height": 560,
-      "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-134, 0, 0]},
+      "projection": {
+        "type": "conicEqualArea",
+        "parallels": [
+          -18,
+          -36
+        ],
+        "rotate": [
+          -134,
+          0,
+          0
+        ]
+      },
       "layer": [
         {
-          "data": {"url": "data/states.geojson", "format": {"type": "json", "property": "features"}},
-          "mark": {"type": "geoshape", "fill": "#E3E3DE", "stroke": "#FFFFFF", "strokeWidth": 1}
+          "data": {
+            "url": "data/states.geojson",
+            "format": {
+              "type": "json",
+              "property": "features"
+            }
+          },
+          "mark": {
+            "type": "geoshape",
+            "fill": "#E3E3DE",
+            "stroke": "#FFFFFF",
+            "strokeWidth": 1
+          }
         },
         {
-          "data": {"url": "data/occurrence_grid_2025.csv", "format": {"parse": {"lon": "number", "lat": "number", "records": "number"}}},
+          "data": {
+            "url": "data/occurrence_grid_2025.csv",
+            "format": {
+              "parse": {
+                "lon": "number",
+                "lat": "number",
+                "records": "number"
+              }
+            }
+          },
           "transform": [
-            {"calculate": "floor(datum.lon) + 0.5", "as": "square_lon"},
-            {"calculate": "floor(datum.lat) + 0.5", "as": "square_lat"},
-            {"aggregate": [{"op": "sum", "field": "records", "as": "records"}], "groupby": ["square_lon", "square_lat"]},
-            {"window": [{"op": "row_number", "as": "rank"}], "sort": [{"field": "records", "order": "descending"}]},
-            {"calculate": "format(abs(datum.square_lat), '.1f') + '°S, ' + format(datum.square_lon, '.1f') + '°E'", "as": "square_centre"},
-            {"calculate": "datum.records * spike_px", "as": "spike_height"},
-            {"calculate": "'M-2.2,0L0,' + (-datum.spike_height) + 'L2.2,0Z'", "as": "spike_path"}
+            {
+              "calculate": "floor(datum.lon) + 0.5",
+              "as": "square_lon"
+            },
+            {
+              "calculate": "floor(datum.lat) + 0.5",
+              "as": "square_lat"
+            },
+            {
+              "aggregate": [
+                {
+                  "op": "sum",
+                  "field": "records",
+                  "as": "records"
+                }
+              ],
+              "groupby": [
+                "square_lon",
+                "square_lat"
+              ]
+            },
+            {
+              "window": [
+                {
+                  "op": "row_number",
+                  "as": "rank"
+                }
+              ],
+              "sort": [
+                {
+                  "field": "records",
+                  "order": "descending"
+                }
+              ]
+            },
+            {
+              "calculate": "format(abs(datum.square_lat), '.1f') + '°S, ' + format(datum.square_lon, '.1f') + '°E'",
+              "as": "square_centre"
+            },
+            {
+              "calculate": "datum.records * spike_px",
+              "as": "spike_height"
+            },
+            {
+              "calculate": "'M-2.2,0L0,' + (-datum.spike_height) + 'L2.2,0Z'",
+              "as": "spike_path"
+            }
           ],
           "layer": [
             {
               "mark": {
-                "type": "point", "filled": true, "size": 4,
-                "fill": "#2F5D3A", "fillOpacity": 0.5,
-                "stroke": "#1E4D2B", "strokeWidth": 0.7, "strokeOpacity": 0.9
+                "type": "point",
+                "filled": true,
+                "size": 4,
+                "fill": "#2F5D3A",
+                "fillOpacity": 0.5,
+                "stroke": "#1E4D2B",
+                "strokeWidth": 0.7,
+                "strokeOpacity": 0.9
               },
               "encoding": {
-                "longitude": {"field": "square_lon", "type": "quantitative"},
-                "latitude": {"field": "square_lat", "type": "quantitative"},
-                "shape": {"field": "spike_path", "type": "nominal", "scale": null, "legend": null},
-                "order": {"field": "square_lat", "sort": "descending"},
+                "longitude": {
+                  "field": "square_lon",
+                  "type": "quantitative"
+                },
+                "latitude": {
+                  "field": "square_lat",
+                  "type": "quantitative"
+                },
+                "shape": {
+                  "field": "spike_path",
+                  "type": "nominal",
+                  "scale": null,
+                  "legend": null
+                },
+                "order": {
+                  "field": "square_lat",
+                  "sort": "descending"
+                },
                 "tooltip": [
-                  {"field": "square_centre", "type": "nominal", "title": "Square centre"},
-                  {"field": "records", "type": "quantitative", "title": "Plant records", "format": ","},
-                  {"field": "rank", "type": "quantitative", "title": "Rank (of 689 squares)"}
+                  {
+                    "field": "square_centre",
+                    "type": "nominal",
+                    "title": "Square centre"
+                  },
+                  {
+                    "field": "records",
+                    "type": "quantitative",
+                    "title": "Plant records",
+                    "format": ","
+                  },
+                  {
+                    "field": "rank",
+                    "type": "quantitative",
+                    "title": "Rank (of 689 squares)"
+                  }
                 ]
               }
             },
             {
-              "transform": [{"filter": "datum.rank <= 2"}, {"calculate": "datum.square_lat + (datum.spike_height + 9) / px_per_degree", "as": "label_lat"}],
-              "mark": {"type": "text", "fontSize": 11, "fontWeight": "bold", "color": "#304E3B"},
+              "transform": [
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 151.21, 2) + pow(datum.square_lat - (-33.87), 2))",
+                  "as": "d_Sydney"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 144.96, 2) + pow(datum.square_lat - (-37.81), 2))",
+                  "as": "d_Melbourne"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 153.03, 2) + pow(datum.square_lat - (-27.47), 2))",
+                  "as": "d_Brisbane"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 115.86, 2) + pow(datum.square_lat - (-31.95), 2))",
+                  "as": "d_Perth"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 138.6, 2) + pow(datum.square_lat - (-34.93), 2))",
+                  "as": "d_Adelaide"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 147.33, 2) + pow(datum.square_lat - (-42.88), 2))",
+                  "as": "d_Hobart"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 130.84, 2) + pow(datum.square_lat - (-12.46), 2))",
+                  "as": "d_Darwin"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 149.13, 2) + pow(datum.square_lat - (-35.28), 2))",
+                  "as": "d_Canberra"
+                },
+                {
+                  "calculate": "min(datum.d_Sydney, datum.d_Melbourne, datum.d_Brisbane, datum.d_Perth, datum.d_Adelaide, datum.d_Hobart, datum.d_Darwin, datum.d_Canberra)",
+                  "as": "d_min"
+                },
+                {
+                  "calculate": "datum.d_min <= 1.3 ? (datum.d_Sydney == datum.d_min ? 'Sydney' : datum.d_Melbourne == datum.d_min ? 'Melbourne' : datum.d_Brisbane == datum.d_min ? 'Brisbane' : datum.d_Perth == datum.d_min ? 'Perth' : datum.d_Adelaide == datum.d_min ? 'Adelaide' : datum.d_Hobart == datum.d_min ? 'Hobart' : datum.d_Darwin == datum.d_min ? 'Darwin' : datum.d_Canberra == datum.d_min ? 'Canberra' : 'none') : 'none'",
+                  "as": "near_city"
+                },
+                {
+                  "filter": "datum.near_city != 'none'"
+                },
+                {
+                  "joinaggregate": [
+                    {
+                      "op": "max",
+                      "field": "records",
+                      "as": "city_max"
+                    }
+                  ],
+                  "groupby": [
+                    "near_city"
+                  ]
+                },
+                {
+                  "filter": "datum.records == datum.city_max"
+                },
+                {
+                  "calculate": "datum.square_lat + (datum.spike_height + 8) / px_per_degree",
+                  "as": "label_lat"
+                }
+              ],
+              "mark": {
+                "type": "text",
+                "fontSize": 10.5,
+                "fontWeight": "bold",
+                "color": "#FFFFFF",
+                "baseline": "bottom",
+                "stroke": "#FFFFFF",
+                "strokeWidth": 3,
+                "strokeJoin": "round"
+              },
               "encoding": {
-                "longitude": {"field": "square_lon", "type": "quantitative"},
-                "latitude": {"field": "label_lat", "type": "quantitative"},
-                "text": {"field": "records", "type": "quantitative", "format": ","}
+                "longitude": {
+                  "field": "square_lon",
+                  "type": "quantitative"
+                },
+                "latitude": {
+                  "field": "label_lat",
+                  "type": "quantitative"
+                },
+                "text": {
+                  "field": "records",
+                  "type": "quantitative",
+                  "format": ","
+                }
               }
             },
             {
-              "transform": [{"filter": "datum.rank == 3"}, {"calculate": "datum.square_lat + (datum.spike_height - 4) / px_per_degree", "as": "label_lat"}],
-              "mark": {"type": "text", "fontSize": 11, "fontWeight": "bold", "color": "#304E3B", "align": "right", "dx": -5},
+              "transform": [
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 151.21, 2) + pow(datum.square_lat - (-33.87), 2))",
+                  "as": "d_Sydney"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 144.96, 2) + pow(datum.square_lat - (-37.81), 2))",
+                  "as": "d_Melbourne"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 153.03, 2) + pow(datum.square_lat - (-27.47), 2))",
+                  "as": "d_Brisbane"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 115.86, 2) + pow(datum.square_lat - (-31.95), 2))",
+                  "as": "d_Perth"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 138.6, 2) + pow(datum.square_lat - (-34.93), 2))",
+                  "as": "d_Adelaide"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 147.33, 2) + pow(datum.square_lat - (-42.88), 2))",
+                  "as": "d_Hobart"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 130.84, 2) + pow(datum.square_lat - (-12.46), 2))",
+                  "as": "d_Darwin"
+                },
+                {
+                  "calculate": "sqrt(pow(datum.square_lon - 149.13, 2) + pow(datum.square_lat - (-35.28), 2))",
+                  "as": "d_Canberra"
+                },
+                {
+                  "calculate": "min(datum.d_Sydney, datum.d_Melbourne, datum.d_Brisbane, datum.d_Perth, datum.d_Adelaide, datum.d_Hobart, datum.d_Darwin, datum.d_Canberra)",
+                  "as": "d_min"
+                },
+                {
+                  "calculate": "datum.d_min <= 1.3 ? (datum.d_Sydney == datum.d_min ? 'Sydney' : datum.d_Melbourne == datum.d_min ? 'Melbourne' : datum.d_Brisbane == datum.d_min ? 'Brisbane' : datum.d_Perth == datum.d_min ? 'Perth' : datum.d_Adelaide == datum.d_min ? 'Adelaide' : datum.d_Hobart == datum.d_min ? 'Hobart' : datum.d_Darwin == datum.d_min ? 'Darwin' : datum.d_Canberra == datum.d_min ? 'Canberra' : 'none') : 'none'",
+                  "as": "near_city"
+                },
+                {
+                  "filter": "datum.near_city != 'none'"
+                },
+                {
+                  "joinaggregate": [
+                    {
+                      "op": "max",
+                      "field": "records",
+                      "as": "city_max"
+                    }
+                  ],
+                  "groupby": [
+                    "near_city"
+                  ]
+                },
+                {
+                  "filter": "datum.records == datum.city_max"
+                },
+                {
+                  "calculate": "datum.square_lat + (datum.spike_height + 8) / px_per_degree",
+                  "as": "label_lat"
+                }
+              ],
+              "mark": {
+                "type": "text",
+                "fontSize": 10.5,
+                "fontWeight": "bold",
+                "color": "#304E3B",
+                "baseline": "bottom"
+              },
               "encoding": {
-                "longitude": {"field": "square_lon", "type": "quantitative"},
-                "latitude": {"field": "label_lat", "type": "quantitative"},
-                "text": {"field": "records", "type": "quantitative", "format": ","}
+                "longitude": {
+                  "field": "square_lon",
+                  "type": "quantitative"
+                },
+                "latitude": {
+                  "field": "label_lat",
+                  "type": "quantitative"
+                },
+                "text": {
+                  "field": "records",
+                  "type": "quantitative",
+                  "format": ","
+                },
+                "tooltip": [
+                  {
+                    "field": "near_city",
+                    "type": "nominal",
+                    "title": "Tallest spike near"
+                  },
+                  {
+                    "field": "records",
+                    "type": "quantitative",
+                    "title": "Plant records",
+                    "format": ","
+                  }
+                ]
               }
             }
           ]
@@ -66,37 +352,152 @@
         {
           "data": {
             "values": [
-              {"city": "Sydney", "lon": 151.21, "lat": -33.87, "align": "left"},
-              {"city": "Melbourne", "lon": 144.96, "lat": -37.81, "align": "right"},
-              {"city": "Brisbane", "lon": 153.03, "lat": -27.47, "align": "left"},
-              {"city": "Perth", "lon": 115.86, "lat": -31.95, "align": "right"},
-              {"city": "Adelaide", "lon": 138.6, "lat": -34.93, "align": "right"},
-              {"city": "Hobart", "lon": 147.33, "lat": -42.88, "align": "left"},
-              {"city": "Darwin", "lon": 130.84, "lat": -12.46, "align": "right"},
-              {"city": "Canberra", "lon": 149.13, "lat": -35.28, "align": "left"}
+              {
+                "city": "Sydney",
+                "lon": 151.21,
+                "lat": -33.87,
+                "align": "left"
+              },
+              {
+                "city": "Melbourne",
+                "lon": 144.96,
+                "lat": -37.81,
+                "align": "right"
+              },
+              {
+                "city": "Brisbane",
+                "lon": 153.03,
+                "lat": -27.47,
+                "align": "left"
+              },
+              {
+                "city": "Perth",
+                "lon": 115.86,
+                "lat": -31.95,
+                "align": "right"
+              },
+              {
+                "city": "Adelaide",
+                "lon": 138.6,
+                "lat": -34.93,
+                "align": "right"
+              },
+              {
+                "city": "Hobart",
+                "lon": 147.33,
+                "lat": -42.88,
+                "align": "left"
+              },
+              {
+                "city": "Darwin",
+                "lon": 130.84,
+                "lat": -12.46,
+                "align": "right"
+              },
+              {
+                "city": "Canberra",
+                "lon": 149.13,
+                "lat": -35.28,
+                "align": "left"
+              }
             ]
           },
-          "encoding": {"longitude": {"field": "lon", "type": "quantitative"}, "latitude": {"field": "lat", "type": "quantitative"}},
+          "encoding": {
+            "longitude": {
+              "field": "lon",
+              "type": "quantitative"
+            },
+            "latitude": {
+              "field": "lat",
+              "type": "quantitative"
+            }
+          },
           "layer": [
             {
-              "transform": [{"filter": "datum.align == 'left'"}],
-              "mark": {"type": "text", "align": "left", "dx": 6, "dy": 6, "fontSize": 10.5, "color": "#FFFFFF", "stroke": "#FFFFFF", "strokeWidth": 3, "strokeJoin": "round"},
-              "encoding": {"text": {"field": "city"}}
+              "transform": [
+                {
+                  "filter": "datum.align == 'left'"
+                }
+              ],
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": 6,
+                "dy": 6,
+                "fontSize": 10.5,
+                "color": "#FFFFFF",
+                "stroke": "#FFFFFF",
+                "strokeWidth": 3,
+                "strokeJoin": "round"
+              },
+              "encoding": {
+                "text": {
+                  "field": "city"
+                }
+              }
             },
             {
-              "transform": [{"filter": "datum.align == 'left'"}],
-              "mark": {"type": "text", "align": "left", "dx": 6, "dy": 6, "fontSize": 10.5, "color": "#304E3B"},
-              "encoding": {"text": {"field": "city"}}
+              "transform": [
+                {
+                  "filter": "datum.align == 'left'"
+                }
+              ],
+              "mark": {
+                "type": "text",
+                "align": "left",
+                "dx": 6,
+                "dy": 6,
+                "fontSize": 10.5,
+                "color": "#304E3B"
+              },
+              "encoding": {
+                "text": {
+                  "field": "city"
+                }
+              }
             },
             {
-              "transform": [{"filter": "datum.align == 'right'"}],
-              "mark": {"type": "text", "align": "right", "dx": -6, "dy": 6, "fontSize": 10.5, "color": "#FFFFFF", "stroke": "#FFFFFF", "strokeWidth": 3, "strokeJoin": "round"},
-              "encoding": {"text": {"field": "city"}}
+              "transform": [
+                {
+                  "filter": "datum.align == 'right'"
+                }
+              ],
+              "mark": {
+                "type": "text",
+                "align": "right",
+                "dx": -6,
+                "dy": 6,
+                "fontSize": 10.5,
+                "color": "#FFFFFF",
+                "stroke": "#FFFFFF",
+                "strokeWidth": 3,
+                "strokeJoin": "round"
+              },
+              "encoding": {
+                "text": {
+                  "field": "city"
+                }
+              }
             },
             {
-              "transform": [{"filter": "datum.align == 'right'"}],
-              "mark": {"type": "text", "align": "right", "dx": -6, "dy": 6, "fontSize": 10.5, "color": "#304E3B"},
-              "encoding": {"text": {"field": "city"}}
+              "transform": [
+                {
+                  "filter": "datum.align == 'right'"
+                }
+              ],
+              "mark": {
+                "type": "text",
+                "align": "right",
+                "dx": -6,
+                "dy": 6,
+                "fontSize": 10.5,
+                "color": "#304E3B"
+              },
+              "encoding": {
+                "text": {
+                  "field": "city"
+                }
+              }
             }
           ]
         }
@@ -107,67 +508,232 @@
       "height": 560,
       "data": {
         "values": [
-          {"label": "10,000", "records": 10000, "x": 30},
-          {"label": "25,000", "records": 25000, "x": 75},
-          {"label": "50,000", "records": 50000, "x": 120}
+          {
+            "label": "10,000",
+            "records": 10000,
+            "x": 30
+          },
+          {
+            "label": "25,000",
+            "records": 25000,
+            "x": 75
+          },
+          {
+            "label": "50,000",
+            "records": 50000,
+            "x": 120
+          }
         ]
       },
       "transform": [
-        {"calculate": "datum.records * spike_px", "as": "spike_height"},
-        {"calculate": "'M-2.2,0L0,' + (-datum.spike_height) + 'L2.2,0Z'", "as": "spike_path"},
-        {"calculate": "470 - datum.spike_height - 5", "as": "label_y"}
+        {
+          "calculate": "datum.records * spike_px",
+          "as": "spike_height"
+        },
+        {
+          "calculate": "'M-2.2,0L0,' + (-datum.spike_height) + 'L2.2,0Z'",
+          "as": "spike_path"
+        },
+        {
+          "calculate": "470 - datum.spike_height - 5",
+          "as": "label_y"
+        }
       ],
       "layer": [
         {
-          "mark": {"type": "rule", "color": "#B5C9B3", "strokeWidth": 1},
-          "encoding": {"x": {"value": 10}, "x2": {"value": 145}, "y": {"value": 470}}
+          "mark": {
+            "type": "rule",
+            "color": "#B5C9B3",
+            "strokeWidth": 1
+          },
+          "encoding": {
+            "x": {
+              "value": 10
+            },
+            "x2": {
+              "value": 145
+            },
+            "y": {
+              "value": 470
+            }
+          }
         },
         {
           "mark": {
-            "type": "point", "filled": true, "size": 4,
-            "fill": "#2F5D3A", "fillOpacity": 0.5,
-            "stroke": "#1E4D2B", "strokeWidth": 0.7, "strokeOpacity": 0.9
+            "type": "point",
+            "filled": true,
+            "size": 4,
+            "fill": "#2F5D3A",
+            "fillOpacity": 0.5,
+            "stroke": "#1E4D2B",
+            "strokeWidth": 0.7,
+            "strokeOpacity": 0.9
           },
           "encoding": {
-            "x": {"field": "x", "type": "quantitative", "scale": null},
-            "y": {"value": 470},
-            "shape": {"field": "spike_path", "type": "nominal", "scale": null, "legend": null}
+            "x": {
+              "field": "x",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "value": 470
+            },
+            "shape": {
+              "field": "spike_path",
+              "type": "nominal",
+              "scale": null,
+              "legend": null
+            }
           }
         },
         {
-          "mark": {"type": "text", "fontSize": 10.5, "baseline": "bottom", "color": "#304E3B"},
+          "mark": {
+            "type": "text",
+            "fontSize": 10.5,
+            "baseline": "bottom",
+            "color": "#304E3B"
+          },
           "encoding": {
-            "x": {"field": "x", "type": "quantitative", "scale": null},
-            "y": {"field": "label_y", "type": "quantitative", "scale": null},
-            "text": {"field": "label"}
+            "x": {
+              "field": "x",
+              "type": "quantitative",
+              "scale": null
+            },
+            "y": {
+              "field": "label_y",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "label"
+            }
           }
         },
         {
-          "data": {"values": [{"t": "Spike height"}]},
-          "mark": {"type": "text", "align": "left", "fontSize": 12, "fontWeight": "bold", "color": "#304E3B"},
-          "encoding": {"x": {"value": 10}, "y": {"value": 215}, "text": {"field": "t"}}
+          "data": {
+            "values": [
+              {
+                "t": "Spike height"
+              }
+            ]
+          },
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "fontSize": 12,
+            "fontWeight": "bold",
+            "color": "#304E3B"
+          },
+          "encoding": {
+            "x": {
+              "value": 10
+            },
+            "y": {
+              "value": 215
+            },
+            "text": {
+              "field": "t"
+            }
+          }
         },
         {
-          "data": {"values": [{"t": "= plant records in"}, {"t": "one ~110 km square"}]},
+          "data": {
+            "values": [
+              {
+                "t": "= plant records in"
+              },
+              {
+                "t": "one ~110 km square"
+              }
+            ]
+          },
           "transform": [
-            {"window": [{"op": "row_number", "as": "i"}]},
-            {"calculate": "470 - 50000 * spike_px - 70 + (datum.i + 1) * 15", "as": "ty"}
+            {
+              "window": [
+                {
+                  "op": "row_number",
+                  "as": "i"
+                }
+              ]
+            },
+            {
+              "calculate": "470 - 50000 * spike_px - 70 + (datum.i + 1) * 15",
+              "as": "ty"
+            }
           ],
-          "mark": {"type": "text", "align": "left", "fontSize": 11.5, "color": "#304E3B"},
-          "encoding": {"x": {"value": 10}, "y": {"field": "ty", "type": "quantitative", "scale": null}, "text": {"field": "t"}}
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "fontSize": 11.5,
+            "color": "#304E3B"
+          },
+          "encoding": {
+            "x": {
+              "value": 10
+            },
+            "y": {
+              "field": "ty",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "t"
+            }
+          }
         },
         {
-          "data": {"values": [{"t": "All spikes share one scale;"}, {"t": "hover a spike for its count."}]},
+          "data": {
+            "values": [
+              {
+                "t": "All spikes share one scale;"
+              },
+              {
+                "t": "hover a spike for its count."
+              }
+            ]
+          },
           "transform": [
-            {"window": [{"op": "row_number", "as": "i"}]},
-            {"calculate": "470 + 6 + datum.i * 14", "as": "ty"}
+            {
+              "window": [
+                {
+                  "op": "row_number",
+                  "as": "i"
+                }
+              ]
+            },
+            {
+              "calculate": "470 + 6 + datum.i * 14",
+              "as": "ty"
+            }
           ],
-          "mark": {"type": "text", "align": "left", "fontSize": 10, "color": "#607464"},
-          "encoding": {"x": {"value": 10}, "y": {"field": "ty", "type": "quantitative", "scale": null}, "text": {"field": "t"}}
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "fontSize": 10,
+            "color": "#607464"
+          },
+          "encoding": {
+            "x": {
+              "value": 10
+            },
+            "y": {
+              "field": "ty",
+              "type": "quantitative",
+              "scale": null
+            },
+            "text": {
+              "field": "t"
+            }
+          }
         }
       ]
     }
   ],
   "spacing": 10,
-  "config": {"view": {"stroke": null}, "font": "Ubuntu"}
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "font": "Ubuntu"
+  }
 }
