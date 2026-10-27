@@ -1,19 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "description": "Spike map: 2025 ALA plant occurrence records across Australia, grouped into 1-degree squares (about 110 km). Each spike rises from the centre of its square; spike height is proportional to the number of records. Uses the same counts as the bin map (data/occurrence_grid_2025.csv, 0.5-degree squares merged into 1-degree squares here). Spikes are drawn with a see-through fill and a darker outline, southern spikes in front, so overlapping spikes stay visible. Reference spikes for 10,000, 25,000 and 50,000 records sit in a legend panel beside the map, on the same scale and baseline as the map spikes.",
-  "background": null,
-  "title": {
-    "text": "Total plant records in 2025.",
-    "subtitle": [
-      "Each spike rises from a square about 110 km across; its height shows the number of plant records."
-    ],
-    "anchor": "start",
-    "fontSize": 15,
-    "subtitleFontSize": 12,
-    "color": "#304E3B",
-    "subtitleColor": "#607464",
-    "offset": 12
-  },
+  "background": "white",
   "params": [{"name": "spike_px", "value": 0.004}, {"name": "px_per_degree", "value": 17.1}],
   "hconcat": [
     {

@@ -100,7 +100,7 @@
             "color": {
               "field": "season",
               "type": "nominal",
-              "title": "Season (southern hemisphere)",
+              "title": "Season",
               "scale": {
                 "domain": ["Summer (Dec–Feb)", "Autumn (Mar–May)", "Winter (Jun–Aug)", "Spring (Sep–Nov)"],
                 "range": ["#E3A72F", "#B5562C", "#6B8CAE", "#7FAF6B"]

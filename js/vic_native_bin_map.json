@@ -6,9 +6,6 @@
   "background": null,
   "title": {
     "text": "Total native plant observations in Victoria, 2025.",
-    "subtitle": [
-      "Each square is about 10 km across and is coloured by its number of native plant observations."
-    ],
     "anchor": "start",
     "fontSize": 15,
     "subtitleFontSize": 12,
@@ -52,7 +49,7 @@
         "color": {
           "field": "obs_class",
           "type": "ordinal",
-          "title": "Native plant observations per square",
+          "title": "Records per square",
           "scale": {
             "domain": ["500 or more", "100–499", "20–99", "5–19", "1–4", "No observations"],
             "range": ["#C4561B", "#D6773F", "#E89A69", "#F5C3A0", "#FDE8D4", "#E3E3DE"]

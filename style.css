@@ -1,48 +1,36 @@
 /* =========================================================
    style.css – Exploring Australian Native Plants
 
-   VISUAL GUIDELINES (followed by every section of the page)
-   1. Colour
-        #304E3B  dark green  – headings, chart text
-        #405D49  mid green   – paragraph text
-        #607464  grey-green  – notes, sources, section numbers
-        #DCE7D7  pale green  – page background, heading rules
-        #E1E9DC  light green – thin rules between sections
-        #F3F7F0  pale tint   – note boxes and the genus panel
-        #FFFFFF  white       – content box
-   2. Type
-        Bricolage Grotesque – page title only
-        Roboto Slab         – section (h2) and chart (h3) headings
-        Ubuntu              – everything else, including the charts
-   3. Structure of every section
-        section number  ->  h2 heading  ->  writing  ->  chart card
-        Chart block = chart title (if the chart has none of its own)
-                     + chart + note + source, always in that order.
-        Charts have no outline: white space and the rules between
-        sections separate them instead.
-   4. Layout
-        .screen-split      writing and a small chart side by side; the
-                           chart column is only as wide as its chart
-                           (.chart-left / .chart-right pick the side)
-        .section-intro     two short columns of writing above a wide chart
-        .chart-with-aside  a chart with a column of picture notes beside it,
-                           used where the chart is narrower than its card
-        Wide charts never shrink: if the screen is too narrow they
-        scroll inside their card, so every label stays readable.
-   5. Annotations
-        .photo-note        picture + short caption with a green edge,
-                           placed in the aside next to a chart
-        .text-note         the same note without a picture
-        .genus-panel       picture + name + fact for the genus chosen in
-                           section 6 (filled in by script.js)
-        Accent colours: #527A58 (green) and #C4561B (orange).
+   A simple, predictable layout that looks the same on every screen:
+   - one white content box, never wider than 1200px, centred
+   - every section: number -> heading -> writing -> chart -> notes
+   - everything is left-aligned
+   - charts keep their normal size; if the screen is narrower than a
+     chart, that chart scrolls sideways inside its own area
+   - picture/text notes sit beside their chart and fill the rest of
+     the row
+
+   Colours
+     #304E3B  dark green  – headings, chart text
+     #405D49  mid green   – paragraph text
+     #607464  grey-green  – notes and sources
+     #527A58  green       – number badges, note edges
+     #C4561B  orange      – genus common name
+     #DCE7D7  pale green  – page background
+     #F3F7F0  pale tint   – note boxes, genus panel
+   Fonts
+     Bricolage Grotesque – page title
+     Roboto Slab         – headings
+     Ubuntu              – everything else
    ========================================================= */
 
 
-/* GENERAL PAGE STYLE */
+/* PAGE */
 
-/* Default font, size, colour and line spacing for the whole page.
-   Child elements inherit these. */
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     background-color: #DCE7D7;
@@ -59,142 +47,115 @@ h3 {
 }
 
 
-/* HERO SECTION (page title at the top) */
+/* HERO (page title at the top, on the pale green page) */
 
-/* A dark green band across the top of the page, so the title
-   stands out strongly against the pale page below. */
 .hero {
-    background: linear-gradient(150deg, #24432F 0%, #3F6B4A 100%);
-    color: #FFFFFF;
-    padding: 64px 30px 96px;          /* extra bottom space: the white box overlaps it */
+    position: relative;
+    z-index: 1;                      /* in front of the ivy */
+    padding: 64px 24px 44px;
     text-align: center;
 }
 
 .hero h1 {
     font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 3.2rem;
-    line-height: 1.12;
-    margin: 0 0 14px;
-    color: #FFFFFF;
-}
-
-.hero-intro {
-    max-width: 700px;
-    margin: 0 auto;
-    font-size: 1.15rem;
-    color: #E3EEDF;
+    font-size: 3rem;
+    line-height: 1.15;
+    margin: 0;
+    color: #304E3B;
 }
 
 
-/* ONE CONTINUOUS WHITE BACKGROUND */
+/* IVY DECORATION */
+
+/* The same ivy photo hangs from the top-left and (mirrored) the
+   top-right of the page. It scrolls away with the page, and sits
+   behind the title and the white content box. */
+html {
+    overflow-x: hidden;              /* the ivy never causes sideways scrolling */
+}
+
+body {
+    position: relative;
+}
+
+.vine {
+    position: absolute;
+    top: 0;
+    z-index: 0;
+    width: clamp(160px, 22vw, 340px);
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+}
+
+.vine-left {
+    left: 0;
+}
+
+.vine-right {
+    right: 0;
+    transform: scaleX(-1);           /* mirror image, so it hangs inwards */
+}
+
+
+/* WHITE CONTENT BOX */
 
 .content-container {
-    position: relative;               /* sits on top of the hero band */
+    position: relative;
+    z-index: 1;                      /* in front of the ivy */
+    width: calc(100% - 48px);        /* always a gap at the screen edges */
     max-width: 1200px;
-    margin: -56px auto 50px;
-    padding: 40px;
+    margin: 0 auto 48px;
+    padding: 48px;
     background-color: #FFFFFF;
     border-radius: 16px;
     box-shadow: 0 8px 25px rgba(48, 78, 59, 0.10);
-    box-sizing: border-box;
 }
 
 
 /* SECTIONS */
 
-/* Generous space between sections, and a thin rule between them,
-   so each part of the story reads as its own step. */
 .paragraph-section {
-    margin: 0 0 48px;
-    padding-bottom: 48px;
-    border-bottom: 1px solid #E1E9DC;
+    margin: 0 0 72px;                /* the only space between sections */
 }
 
 .paragraph-section:last-child {
     margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
 }
 
-/* Round number badge above each heading (1, 2, 3 ...) that shows
-   where the reader is in the story. */
+/* Section number written just before the heading text, e.g. "1  Diversity...". */
 .section-number {
-    display: inline-grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    margin: 0 0 10px;
-    border-radius: 50%;
-    background-color: #527A58;
-    color: #FFFFFF;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1;
+    margin-right: 14px;
+    color: #527A58;
 }
 
 .paragraph-section h2 {
     font-size: 1.9rem;
     line-height: 1.25;
     margin: 0 0 24px;
-    padding-bottom: 12px;
-    border-bottom: 3px solid #DCE7D7;
-}
-
-
-/* LAYOUT 1: WRITING AND A SMALL CHART SIDE BY SIDE */
-
-/* Two equal columns. Whichever comes first in index.html sits on
-   the left, so sections can alternate sides. minmax(0, 1fr) stops
-   a chart from pushing its column wider than half the page. */
-.screen-split {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 48px;
-    align-items: center;              /* writing sits level with the middle of the chart */
-}
-
-/* The chart column shrinks to the width of its chart, and the
-   writing takes all the remaining space, so there is no empty
-   white gap inside the chart card. */
-.screen-split.chart-left {
-    grid-template-columns: auto minmax(0, 1fr);
-}
-
-.screen-split.chart-right {
-    grid-template-columns: minmax(0, 1fr) auto;
-}
-
-/* min-content makes the card exactly as wide as its chart: the
-   title, note and source wrap to fit under it. */
-.screen-split.chart-left .chart-panel,
-.screen-split.chart-right .chart-panel {
-    width: min-content;
-    max-width: 100%;
-}
-
-.screen-split.chart-left .chart-half,
-.screen-split.chart-right .chart-half {
-    width: auto;
-}
-
-
-/* LAYOUT 2: TWO COLUMNS OF WRITING ABOVE A WIDE CHART */
-
-.section-intro {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 40px;
-    align-items: start;
-    margin-bottom: 20px;
 }
 
 
 /* WRITING */
 
+/* Sections 1 and 5: writing and chart in two equal columns. */
+.screen-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+}
+
+/* Other sections: two short columns of writing above the chart. */
+.section-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 48px;
+    margin: 0 0 28px;
+}
+
 .screen-text p {
-    max-width: 62ch;                 /* comfortable line length */
     margin: 0 0 14px;
-    letter-spacing: 0.02em;
     color: #405D49;
 }
 
@@ -202,62 +163,51 @@ h3 {
     margin-bottom: 0;
 }
 
-/* Placeholder paragraphs are shown in italics so they are easy to
-   spot and replace before submitting. Delete the class once the
-   paragraph is written. */
+/* Placeholder paragraphs: italic grey so they are easy to find.
+   Delete class="placeholder" once the paragraph is written. */
 .screen-text p.placeholder {
     font-style: italic;
     color: #7F8F82;
 }
 
 
-/* CHART BLOCKS */
+/* CHARTS */
 
-/* Charts have no border or box: they sit straight on the white page,
-   and the space and thin rules between sections keep them apart. */
 .chart-panel {
-    padding: 0;
-    border: none;
-    background: none;
+    min-width: 0;                    /* lets a wide chart scroll instead of stretching the page */
 }
 
-/* Chart title, used only for charts that have no title of their own. */
 .chart-panel h3 {
-    font-size: 1.3rem;
-    margin: 0 0 6px;
-    text-align: center;
+    font-size: 1.25rem;
+    margin: 0 0 4px;
 }
 
 .chart-subtitle {
     margin: 0 0 16px;
-    text-align: center;
     font-size: 0.9rem;
     color: #607464;
 }
 
-
-/* VEGA-LITE CHART CONTAINERS */
-
-/* .chart-full: wide charts that use the whole width of the card.
-   If the screen is narrower than the chart, the chart scrolls
-   inside its card instead of shrinking or being cut off. */
+/* The chart itself, at its normal size. If its column is narrower
+   than the chart, the chart (an SVG, so it stays sharp) shrinks evenly
+   to fit. Vega finds what the mouse is over from the shape itself, so
+   tooltips and clicks still work on a shrunk chart. */
 .chart-full,
 .chart-half {
-    display: block;
     width: 100%;
-    text-align: center;
-    overflow-x: auto;
-    padding-bottom: 4px;             /* room for the scroll bar */
 }
 
-
-/* NOTES AND SOURCES UNDER EACH CHART */
+.chart-full svg,
+.chart-half svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
 
 .chart-note,
 .chart-source {
-    margin: 14px auto 0;
+    margin: 14px 0 0;
     max-width: 820px;
-    text-align: center;
     color: #607464;
 }
 
@@ -273,14 +223,10 @@ h3 {
     color: #356A4B;
 }
 
-
-/* VEGA-LITE DROPDOWNS */
-
-/* .vega-bindings is the box Vega-Lite creates for dropdowns. */
+/* Dropdown menus that Vega-Lite adds under some charts. */
 .vega-bindings {
+    margin-top: 12px;
     font-size: 0.9rem;
-    margin-top: 14px;
-    text-align: center;
 }
 
 .vega-bindings select {
@@ -294,82 +240,63 @@ h3 {
 }
 
 
-/* FOOTER */
+/* NOTES BESIDE A CHART */
 
-.page-footer {
-    max-width: 1200px;
-    margin: 0 auto 40px;
-    padding: 0 30px;
-    box-sizing: border-box;
-    font-size: 0.85rem;
-    color: #405D49;
-    text-align: center;
-}
-
-.page-footer p {
-    margin: 0;
-}
-
-.page-footer a {
-    color: #356A4B;
-}
-
-
-/* CHART WITH PICTURE NOTES BESIDE IT */
-
-/* Flexbox with wrapping: the chart keeps its own width, and the notes
-   sit beside it when there is room. When the window is too narrow
-   (smaller laptop, zoomed-in or different browser), the notes drop
-   underneath the chart as a row of cards instead of squashing the
-   chart or stretching the photos. */
+/* Two fixed columns: the chart on the left at its normal width, and
+   the notes on the right filling ALL the remaining width. The notes
+   never move under the chart. If the screen is too narrow for the
+   whole chart, the chart scrolls sideways inside its own column and
+   the notes stay where they are (at least 220px wide). */
 .chart-with-aside {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 28px;
+    display: grid;
+    grid-template-columns: minmax(0, max-content) minmax(280px, 1fr);
+    gap: 32px;
+    align-items: start;
 }
 
 .chart-with-aside .chart-full {
-    flex: 0 0 auto;                 /* chart never shrinks */
-    width: auto;
-    max-width: 100%;
+    min-width: 0;
 }
 
+/* For a short chart with long notes (section 10): the chart gives up
+   a little width so the notes are wider and less tall. */
+.chart-with-aside.aside-wide {
+    grid-template-columns: minmax(0, 1.4fr) minmax(360px, 1fr);
+}
+
+/* Notes stack in one column, each joined to its chart by a line. */
 .chart-aside {
-    flex: 1 1 240px;                /* notes take the space that is left */
-    min-width: 240px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-    padding-top: 40px;              /* lines the first note up with the top of the chart */
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-content: start;
+    padding-top: 40px;               /* lines the notes up with the top of the chart */
 }
 
-/* Beside the chart the notes stack; underneath it they sit side by
-   side, but never wider than 380px each, so photos keep their shape. */
-.chart-aside > * {
-    max-width: 380px;
+/* The chart + notes area is the frame for the annotation lines. */
+.chart-with-aside {
+    position: relative;
 }
 
-
-/* PICTURE NOTES (annotations) */
-
-/* A photo with a short caption. The caption has a green edge, like a
-   sticky note, so it reads as an annotation rather than body text. */
+/* Picture note: photo + caption with a green edge. */
 .photo-note {
     margin: 0;
     background-color: #FFFFFF;
     border-radius: 10px;
     box-shadow: 0 4px 14px rgba(48, 78, 59, 0.14);
-    overflow: hidden;
 }
 
-/* The pale green box shows until a picture is added. Every photo is
-   cropped to the same 16:10 shape, whatever size or orientation the
-   original file is, so portrait and landscape photos line up. */
+.photo-note .photo-slot {
+    border-radius: 10px 10px 0 0;
+}
+
+/* Every photo is cropped to the same shape, whatever the original
+   size or orientation. The pale box shows until a photo is added. */
 .photo-slot {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
+    max-height: 170px;               /* photos never get taller than this */
     overflow: hidden;
     background: linear-gradient(135deg, #E3EEDF, #B5C9B3);
 }
@@ -378,17 +305,13 @@ h3 {
     position: absolute;
     top: 0;
     left: 0;
-    display: block;
     width: 100%;
     height: 100%;
-    max-width: none;
     object-fit: cover;
-    object-position: center;
 }
 
-/* Text shown inside an empty photo slot (added by script.js when a
-   picture file is missing), so it is clear where to put the file. */
-.photo-slot .photo-missing {
+/* Text shown in an empty photo box (added by script.js). */
+.photo-missing {
     position: absolute;
     inset: 0;
     display: flex;
@@ -413,10 +336,7 @@ h3 {
     color: #304E3B;
 }
 
-/* TEXT NOTES (annotations without a picture) */
-
-/* Same green edge as the picture notes, on a pale tint, so they read
-   as notes about the chart rather than main text. */
+/* Text note: the same look without a photo. */
 .text-note {
     padding: 12px 14px;
     border-left: 4px solid #527A58;
@@ -438,16 +358,14 @@ h3 {
 }
 
 
-/* GENUS PANEL (section 06) */
+/* GENUS PANEL (section 6) */
 
-/* Picture + name + fact for the genus chosen in the menu. It sits
-   at the top of the chart card, above the heatmap and radial chart. */
 .genus-panel {
     display: grid;
     grid-template-columns: 240px minmax(0, 1fr);
     gap: 28px;
     align-items: center;
-    margin: 0 0 26px;
+    margin: 0 0 24px;
     padding: 18px;
     border-radius: 12px;
     background-color: #F3F7F0;
@@ -455,7 +373,6 @@ h3 {
 
 .genus-panel .photo-slot {
     border-radius: 10px;
-    overflow: hidden;
     box-shadow: 0 4px 14px rgba(48, 78, 59, 0.14);
 }
 
@@ -469,8 +386,6 @@ h3 {
     color: #607464;
 }
 
-/* The menu is styled like a heading, so choosing a genus feels like
-   turning the page to that plant. */
 .genus-panel select {
     font-family: "Roboto Slab", serif;
     font-size: 1.5rem;
@@ -498,30 +413,216 @@ h3 {
     color: #405D49;
 }
 
-/* The chart's own genus menu is hidden because the menu in the
-   panel above controls the chart instead. */
+/* The chart's own genus menu is hidden; the panel's menu controls it. */
 #genera_month_bump .vega-bindings {
     display: none;
 }
 
 
-/* RESPONSIVE DESIGN */
+/* DATA & CREDITS */
 
-/* On screens narrower than 1000px, writing and charts stack in one
-   column; wide charts keep their size and scroll inside their card. */
-@media (max-width: 1000px) {
+.credits-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+}
+
+.credits-block {
+    padding: 22px 24px;
+    border-radius: 12px;
+    background-color: #F3F7F0;
+}
+
+.credits-block h3 {
+    margin: 0 0 10px;
+    font-size: 1.05rem;
+}
+
+.credits-block h3:not(:first-child) {
+    margin-top: 20px;
+}
+
+.credits-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: #405D49;
+}
+
+.credits-list li {
+    margin-bottom: 8px;
+}
+
+.credits-list a {
+    color: #356A4B;
+}
+
+
+/* FOOTER (left-aligned, with the list of sources) */
+
+.page-footer {
+    position: relative;
+    z-index: 1;
+    padding: 0 24px 48px;
+    font-size: 0.85rem;
+    color: #405D49;
+}
+
+/* Same width and left edge as the white content box above it. */
+.footer-inner {
+    width: calc(100% - 48px);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+}
+
+.footer-course {
+    margin: 0 0 18px;
+    font-weight: 700;
+    color: #304E3B;
+}
+
+.page-footer h3 {
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+}
+
+.page-footer h4 {
+    margin: 14px 0 4px;
+    font-size: 0.85rem;
+    color: #304E3B;
+}
+
+.source-list {
+    margin: 0;
+    padding-left: 18px;
+    line-height: 1.6;
+}
+
+.page-footer a {
+    color: #356A4B;
+    word-break: break-word;
+}
+
+.footer-built {
+    margin: 18px 0 0;
+}
+
+
+/* "VIEW SPEC" LINK UNDER EACH CHART (added by script.js) */
+
+.view-spec {
+    margin: 8px 0 0;
+    font-size: 0.8rem;
+}
+
+.view-spec a {
+    color: #356A4B;
+    text-decoration: none;
+    border-bottom: 1px solid #B5C9B3;
+}
+
+.view-spec a:hover {
+    border-bottom-color: #356A4B;
+}
+
+
+/* ANNOTATION LINES (drawn by script.js) */
+
+/* A see-through layer over the chart and its notes. Each line runs
+   from a point in the chart to the edge of its note, ending in a
+   small dot on the chart. Clicks pass straight through it. */
+.annotation-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.annotation-lines path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.annotation-lines path.halo {
+    stroke: #FFFFFF;
+    stroke-width: 4;
+    opacity: 0.85;
+}
+
+.annotation-lines path.line {
+    stroke: #4A5E50;
+    stroke-width: 1;
+}
+
+.annotation-lines circle {
+    fill: #304E3B;
+    stroke: #FFFFFF;
+    stroke-width: 1.5;
+}
+
+/* Lettered marker placed on a chart where a line would cross it. */
+.annotation-lines circle.marker {
+    fill: #304E3B;
+    stroke: #FFFFFF;
+    stroke-width: 2;
+}
+
+.annotation-lines .marker-text {
+    fill: #FFFFFF;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-anchor: middle;
+}
+
+/* The matching letter on the note itself (set by script.js). */
+.chart-aside > [data-marker] {
+    position: relative;
+}
+
+.chart-aside > [data-marker]::before {
+    content: attr(data-marker);
+    position: absolute;
+    top: -9px;
+    left: -9px;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+    background-color: #304E3B;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+
+/* SMALL SCREENS */
+
+/* Below 900px wide, every two-column area becomes one column. */
+@media (max-width: 900px) {
 
     .screen-split,
-    .screen-split.chart-left,
-    .screen-split.chart-right,
     .section-intro,
-    .genus-panel {
+    .genus-panel,
+    .credits-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 20px;
     }
 
-    .hero {
-        padding: 30px 20px;
+    .genus-panel .photo-slot {
+        max-width: 320px;
     }
 
     .hero h1 {
@@ -529,15 +630,12 @@ h3 {
     }
 
     .content-container {
-        margin: 0 16px 40px;
-        padding: 26px 18px;
+        width: calc(100% - 24px);
+        padding: 28px 20px;
     }
 
-    .chart-aside {
-        padding-top: 0;
-    }
-
-    .genus-panel .photo-slot {
-        max-width: 360px;
+    .footer-inner {
+        width: calc(100% - 24px);
+        padding: 0 20px;
     }
 }

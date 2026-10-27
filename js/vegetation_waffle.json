@@ -35,18 +35,6 @@
     {"calculate": "(datum.position - 1) % 40", "as": "col"},
     {"calculate": "floor((datum.position - 1) / 40)", "as": "row"}
   ],
-  "title": {
-    "text": "Australia's vegetation divide.",
-    "subtitle": [
-      "Each square = 0.1% of Australia (about 7,700 sq km)."
-    ],
-    "anchor": "start",
-    "fontSize": 16,
-    "subtitleFontSize": 12,
-    "color": "#304E3B",
-    "subtitleColor": "#607464",
-    "offset": 14
-  },
   "width": 600,
   "height": 375,
   "encoding": {
