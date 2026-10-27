@@ -16,12 +16,17 @@
       "sort": {"field": "species_midpoint", "op": "max", "order": "descending"},
       "axis": {"ticks": false, "domain": false, "labelPadding": 10}
     },
-    "x": {
+        "x": {
       "field": "species_midpoint",
       "type": "quantitative",
       "title": "Number of species (log scale)",
-      "scale": {"type": "log"},
-      "axis": {"format": "~s", "gridDash": [3, 4], "domain": false}
+      "scale": {"type": "log", "domain": [50, 500000]},
+      "axis": {
+        "values": [100, 1000, 10000, 100000],
+        "format": ",.0f",
+        "gridDash": [3, 4],
+        "domain": false
+      }
     }
   },
   "layer": [

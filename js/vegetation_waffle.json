@@ -1,42 +1,36 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Waffle chart: present-day structural vegetation of Australia (Atlas of Australian Resources, 1990, via ANBG). 1,000 squares; each square is 0.1% of Australia (about 7,700 sq km). Square counts are calculated from each type's area (largest-remainder rounding so they add to exactly 1,000), not from the rounded percentages. Squares are coloured by broad vegetation group; large groups are labelled on the grid; the tooltip shows the detailed type.",
+  "description": "Waffle chart: present-day structural vegetation of Australia (Atlas of Australian Resources, 1990, via ANBG), in 7 broad groups. 1,000 squares; each square is 0.1% of Australia (about 7,700 sq km). Each group's squares are calculated from its total area (largest-remainder rounding so they add to exactly 1,000), so the squares match the group shares shown in the legend. Hover over a square for the group's area, share, square count and the vegetation types it includes.",
   "background": null,
-  "data": {
-    "url": "data/09_vegetation_types.csv",
-    "format": {"parse": {"Area (sq km)": "number", "% of Australia": "number"}}
-  },
+  "data": {"url": "data/09_vegetation_types.csv", "format": {"parse": {"Area (sq km)": "number", "% of Australia": "number"}}},
   "transform": [
-    {"joinaggregate": [{"op": "sum", "field": "Area (sq km)", "as": "total_area"}]},
-    {"calculate": "datum['Area (sq km)'] / datum.total_area * 1000", "as": "exact_squares"},
-    {"calculate": "floor(datum.exact_squares)", "as": "base_squares"},
-    {"calculate": "datum.exact_squares - datum.base_squares", "as": "remainder"},
-    {"joinaggregate": [{"op": "sum", "field": "base_squares", "as": "base_total"}]},
-    {
-      "window": [{"op": "row_number", "as": "remainder_rank"}],
-      "sort": [{"field": "remainder", "order": "descending"}]
-    },
-    {"calculate": "datum.base_squares + (datum.remainder_rank <= 1000 - datum.base_total ? 1 : 0)", "as": "squares"},
-    {"calculate": "datum['Area (sq km)'] / datum.total_area * 100", "as": "area_share"},
     {
       "calculate": "{'Closed forest': 'Forests', 'Open forest': 'Forests', 'Woodlands': 'Woodlands', 'Open woodlands': 'Woodlands', 'Tall shrublands': 'Shrublands', 'Low shrublands': 'Shrublands', 'Hummock grassland': 'Grasslands', 'Tufted grasses/graminoids': 'Grasslands', 'Other herbaceous plants': 'Pastures and herbs', 'Littoral complex': 'Mangroves and coast', 'Other': 'Urban, cropping and bare'}[datum['Vegetation type']]",
       "as": "group"
     },
+    {"aggregate": [{"op": "sum", "field": "Area (sq km)", "as": "group_area"}], "groupby": ["group"]},
+    {"joinaggregate": [{"op": "sum", "field": "group_area", "as": "total_area"}]},
+    {"calculate": "datum.group_area / datum.total_area * 1000", "as": "exact_squares"},
+    {"calculate": "floor(datum.exact_squares)", "as": "base_squares"},
+    {"calculate": "datum.exact_squares - datum.base_squares", "as": "remainder"},
+    {"joinaggregate": [{"op": "sum", "field": "base_squares", "as": "base_total"}]},
+    {"window": [{"op": "row_number", "as": "remainder_rank"}], "sort": [{"field": "remainder", "order": "descending"}]},
+    {"calculate": "datum.base_squares + (datum.remainder_rank <= 1000 - datum.base_total ? 1 : 0)", "as": "squares"},
+    {"calculate": "datum.group_area / datum.total_area * 100", "as": "group_share"},
     {
       "calculate": "indexof(['Forests', 'Woodlands', 'Shrublands', 'Grasslands', 'Pastures and herbs', 'Mangroves and coast', 'Urban, cropping and bare'], datum.group)",
       "as": "group_order"
     },
-    {"joinaggregate": [{"op": "sum", "field": "area_share", "as": "group_share"}], "groupby": ["group"]},
     {"calculate": "datum.group + ' (' + format(datum.group_share, '.1f') + '%)'", "as": "group_label"},
+    {
+      "calculate": "{'Forests': 'Closed forest, open forest', 'Woodlands': 'Woodlands, open woodlands', 'Shrublands': 'Tall shrublands, low shrublands', 'Grasslands': 'Hummock grassland, tufted grasses', 'Pastures and herbs': 'Other herbaceous plants', 'Mangroves and coast': 'Littoral complex', 'Urban, cropping and bare': 'Other (urban, cropping, bare)'}[datum.group]",
+      "as": "types"
+    },
     {"calculate": "sequence(0, datum.squares)", "as": "square_index"},
     {"flatten": ["square_index"]},
     {
       "window": [{"op": "row_number", "as": "position"}],
-      "sort": [
-        {"field": "group_order", "order": "ascending"},
-        {"field": "area_share", "order": "ascending"},
-        {"field": "square_index", "order": "ascending"}
-      ]
+      "sort": [{"field": "group_order", "order": "ascending"}, {"field": "square_index", "order": "ascending"}]
     },
     {"calculate": "(datum.position - 1) % 40", "as": "col"},
     {"calculate": "floor((datum.position - 1) / 40)", "as": "row"}
@@ -62,49 +56,36 @@
   },
   "layer": [
     {
-      "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1.2},
+      "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1.5, "cornerRadius": 1.5},
       "encoding": {
         "color": {
           "field": "group_label",
           "type": "nominal",
           "title": "Vegetation group (% of Australia)",
           "sort": {"field": "group_order"},
-          "scale": {"range": ["#2F5D3A", "#7BA05B", "#C9A44C", "#E8D27A", "#D8CCB0", "#3E8E9E", "#8C8C8C"]},
-          "legend": {"orient": "right", "symbolType": "square", "symbolSize": 500, "labelFontSize": 12, "titleFontSize": 12, "labelLimit": 500}
+          "scale": {"range": ["#1F4E3D", "#4F8A5B", "#A3B86C", "#E2C766", "#EBDDB0", "#3D8C95", "#B7A99A"]},
+          "legend": {
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 3,
+            "symbolType": "square",
+            "symbolSize": 220,
+            "labelFontSize": 12,
+            "titleFontSize": 12,
+            "labelLimit": 0,
+            "titleLimit": 0,
+            "columnPadding": 22,
+            "rowPadding": 8,
+            "offset": 16
+          }
         },
         "tooltip": [
-          {"field": "Vegetation type", "type": "nominal", "title": "Vegetation type"},
-          {"field": "Description", "type": "nominal"},
-          {"field": "Area (sq km)", "type": "quantitative", "title": "Area (sq km)", "format": ","},
-          {"field": "area_share", "type": "quantitative", "title": "% of Australia", "format": ".2f"},
+          {"field": "group", "type": "nominal", "title": "Vegetation group"},
+          {"field": "types", "type": "nominal", "title": "Includes"},
+          {"field": "group_area", "type": "quantitative", "title": "Area (sq km)", "format": ","},
+          {"field": "group_share", "type": "quantitative", "title": "% of Australia", "format": ".2f"},
           {"field": "squares", "type": "quantitative", "title": "Squares in the chart"}
         ]
-      }
-    },
-    {
-      "transform": [
-        {
-          "aggregate": [
-            {"op": "min", "field": "position", "as": "first_square"},
-            {"op": "max", "field": "position", "as": "last_square"},
-            {"op": "max", "field": "group_share", "as": "group_share"}
-          ],
-          "groupby": ["group"]
-        },
-        {"filter": "datum.group_share >= 4"},
-        {"calculate": "floor((datum.first_square - 1) / 40)", "as": "first_row"},
-        {"calculate": "floor((datum.last_square - 1) / 40)", "as": "last_row"},
-        {"calculate": "datum.last_row - datum.first_row >= 2 ? 20 : (floor((datum.first_square + datum.last_square) / 2) - 1) % 40", "as": "col"},
-        {"calculate": "datum.last_row - datum.first_row >= 2 ? round((datum.first_row + datum.last_row) / 2) : floor((floor((datum.first_square + datum.last_square) / 2) - 1) / 40)", "as": "row"},
-        {"calculate": "datum.group + ' ' + format(datum.group_share, '.1f') + '%'", "as": "annotation"}
-      ],
-      "mark": {"type": "text", "fontSize": 13, "fontWeight": "bold"},
-      "encoding": {
-        "text": {"field": "annotation", "type": "nominal"},
-        "color": {
-          "condition": {"test": "datum.group == 'Forests' || datum.group == 'Woodlands'", "value": "white"},
-          "value": "#304E3B"
-        }
       }
     }
   ],

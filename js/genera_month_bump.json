@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Heatmap + seasonal rose chart for one native plant genus (chosen in the dropdown), 2025 ALA plant records. The heatmap shows records by state and month. The rose chart adds all states together: one wedge per month, wedge area beyond the centre hole proportional to the genus's records that month, coloured by southern-hemisphere season. Data: data/genus_state_month_2025.csv.",
+  "description": "Heatmap + seasonal rose chart for one native plant genus (chosen in the dropdown), 2025 ALA plant records. The heatmap shows records by state and month, with states in a fixed order. The rose chart adds all states together: one wedge per month, wedge area beyond the centre hole proportional to the genus's records that month, coloured by southern-hemisphere season (summer gold, autumn rust, winter blue, spring green). Data: data/genus_state_month_2025.csv.",
   "background": null,
   "title": {
     "text": {"expr": "'When and where is ' + Genus_selection + ' recorded? (2025)'"},
@@ -36,8 +36,7 @@
     {
       "calculate": "indexof([12, 1, 2], datum.month) >= 0 ? 'Summer (Dec–Feb)' : datum.month <= 5 ? 'Autumn (Mar–May)' : datum.month <= 8 ? 'Winter (Jun–Aug)' : 'Spring (Sep–Nov)'",
       "as": "season"
-    },
-    {"joinaggregate": [{"op": "max", "field": "records", "as": "all_max"}]}
+    }
   ],
   "hconcat": [
     {
@@ -45,12 +44,16 @@
       "height": {"step": 32},
       "encoding": {
         "x": {
-          "field": "month", "type": "ordinal", "title": null,
+          "field": "month",
+          "type": "ordinal",
+          "title": "Month (2025)",
           "axis": {"orient": "top", "labelExpr": "monthAbbrevFormat(datum.value - 1)", "labelAngle": 0, "ticks": false, "domain": false, "labelFontSize": 11}
         },
         "y": {
-          "field": "state", "type": "nominal", "title": null,
-          "sort": {"field": "state_total", "op": "max", "order": "descending"},
+          "field": "state",
+          "type": "nominal",
+          "title": null,
+          "sort": ["New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "Northern Territory", "Australian Capital Territory"],
           "axis": {"ticks": false, "domain": false, "labelFontSize": 12, "labelPadding": 6}
         }
       },
@@ -59,8 +62,10 @@
           "mark": {"type": "rect", "stroke": "white", "strokeWidth": 1.5},
           "encoding": {
             "color": {
-              "field": "records", "type": "quantitative", "title": "Records per month",
-              "scale": {"range": ["#F1F5EC", "#A9C79A", "#527A58", "#1E4D2B"], "zero": true},
+              "field": "records",
+              "type": "quantitative",
+              "title": "Records per month",
+              "scale": {"range": ["#F1F5EC", "#C9DCBF", "#8DB580", "#527A58", "#1E4D2B"], "zero": true},
               "legend": {"orient": "bottom", "direction": "horizontal", "gradientLength": 220, "format": ",.0f", "tickCount": 4, "titleLimit": 300}
             },
             "tooltip": [
@@ -69,13 +74,6 @@
               {"field": "records", "type": "quantitative", "title": "Records", "format": ","},
               {"field": "state_total", "type": "quantitative", "title": "State total for 2025", "format": ","}
             ]
-          }
-        },
-        {
-          "mark": {"type": "text", "fontSize": 9.5},
-          "encoding": {
-            "text": {"field": "records", "type": "quantitative", "format": ","},
-            "color": {"condition": {"test": "datum.records >= 0.45 * datum.all_max", "value": "white"}, "value": "#304E3B"}
           }
         }
       ]
@@ -94,8 +92,7 @@
         {"calculate": "datum.month", "as": "angle_end"},
         {"calculate": "datum.month - 0.5", "as": "angle_mid"},
         {"joinaggregate": [{"op": "max", "field": "records", "as": "month_max"}]},
-        {"calculate": "sqrt(42 * 42 + (125 * 125 - 42 * 42) * (datum.month_max > 0 ? datum.records / datum.month_max : 0))", "as": "wedge_radius"},
-        {"calculate": "Genus_selection", "as": "centre_label"}
+        {"calculate": "sqrt(42 * 42 + (125 * 125 - 42 * 42) * (datum.month_max > 0 ? datum.records / datum.month_max : 0))", "as": "wedge_radius"}
       ],
       "layer": [
         {
@@ -105,15 +102,16 @@
             "theta2": {"field": "angle_end"},
             "radius": {"field": "wedge_radius", "type": "quantitative", "scale": null},
             "color": {
-              "field": "season", "type": "nominal", "title": "Season",
+              "field": "season",
+              "type": "nominal",
+              "title": "Season (southern hemisphere)",
               "scale": {
                 "domain": ["Summer (Dec–Feb)", "Autumn (Mar–May)", "Winter (Jun–Aug)", "Spring (Sep–Nov)"],
-                "range": ["#E0A33B", "#C4561B", "#5B8DB8", "#5E9C5A"]
+                "range": ["#E3A72F", "#B5562C", "#6B8CAE", "#7FAF6B"]
               },
               "legend": {"orient": "bottom", "direction": "vertical", "columns": 2, "symbolType": "square"}
             },
             "tooltip": [
-              {"field": "centre_label", "type": "nominal", "title": "Genus"},
               {"field": "month_name", "type": "nominal", "title": "Month"},
               {"field": "records", "type": "quantitative", "title": "Records (all states)", "format": ","},
               {"field": "share", "type": "quantitative", "title": "Share of the year", "format": ".1%"},
@@ -129,11 +127,6 @@
             "radius": {"value": 140},
             "text": {"field": "month_abbr", "type": "nominal"}
           }
-        },
-        {
-          "transform": [{"filter": "datum.month == 1"}],
-          "mark": {"type": "text", "fontSize": 12, "fontWeight": "bold", "fontStyle": "italic", "color": "#304E3B"},
-          "encoding": {"text": {"field": "centre_label"}, "x": {"value": 150}, "y": {"value": 150}}
         }
       ]
     }

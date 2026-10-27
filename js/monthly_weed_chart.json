@@ -21,23 +21,14 @@
       "calculate": "['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][datum.month - 1]",
       "as": "month_name"
     },
-    {
-      "joinaggregate": [{"op": "max", "field": "share", "as": "peak_share"}],
-      "groupby": ["vernacularName"]
-    },
+    {"joinaggregate": [{"op": "max", "field": "share", "as": "peak_share"}], "groupby": ["vernacularName"]},
     {"calculate": "datum.share == datum.peak_share ? datum.month : null", "as": "peak_month_value"},
-    {
-      "joinaggregate": [{"op": "max", "field": "peak_month_value", "as": "peak_month"}],
-      "groupby": ["vernacularName"]
-    },
+    {"joinaggregate": [{"op": "max", "field": "peak_month_value", "as": "peak_month"}], "groupby": ["vernacularName"]},
     {"calculate": "format(datum.share, '.0f') + '% in ' + datum.month_name", "as": "peak_label"}
   ],
   "title": {
     "text": "Total weed records in 2025",
-    "subtitle": [
-      "Share of each weed's 2025 records made in each month. Dots mark the busiest month."
-
-    ],
+    "subtitle": ["Share of each weed's 2025 records made in each month. Dots mark the busiest month."],
     "anchor": "start",
     "fontSize": 15,
     "subtitleFontSize": 12,
@@ -54,10 +45,10 @@
       "header": {"labels": false}
     }
   },
-  "spacing": -22,
+  "spacing": 14,
   "spec": {
     "width": 680,
-    "height": 46,
+    "height": 60,
     "encoding": {
       "x": {
         "field": "month",
@@ -74,10 +65,11 @@
           "labelPadding": 8
         }
       },
-      "y": {
+            "y": {
         "field": "share",
         "type": "quantitative",
-        "scale": {"domain": [0, 60], "range": [46, -40]},
+        "title": null,
+        "scale": {"domain": [0, 80], "nice": false},
         "axis": null
       },
       "tooltip": [
@@ -97,7 +89,29 @@
       },
       {
         "transform": [{"filter": "datum.share == datum.peak_share"}],
-        "mark": {"type": "text", "align": "left", "dx": 7, "dy": -2, "fontSize": 10.5, "color": "#7A5A06"},
+        "mark": {
+          "type": "text",
+          "baseline": "bottom",
+          "dy": -5,
+          "fontSize": 10.5,
+          "color": "white",
+          "stroke": "white",
+          "strokeWidth": 3,
+          "strokeJoin": "round",
+          "align": {"expr": "datum.month <= 2 ? 'left' : datum.month >= 11 ? 'right' : 'center'"}
+        },
+        "encoding": {"text": {"field": "peak_label", "type": "nominal"}}
+      },
+      {
+        "transform": [{"filter": "datum.share == datum.peak_share"}],
+        "mark": {
+          "type": "text",
+          "baseline": "bottom",
+          "dy": -5,
+          "fontSize": 10.5,
+          "color": "#7A5A06",
+          "align": {"expr": "datum.month <= 2 ? 'left' : datum.month >= 11 ? 'right' : 'center'"}
+        },
         "encoding": {"text": {"field": "peak_label", "type": "nominal"}}
       },
       {
@@ -106,7 +120,7 @@
         "encoding": {
           "text": {"field": "vernacularName", "type": "nominal"},
           "x": {"value": -12},
-          "y": {"value": 46}
+          "y": {"value": 60}
         }
       }
     ]

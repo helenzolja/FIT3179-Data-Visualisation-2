@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Bar chart: number of plant taxa on the EPBC Act List of Threatened Flora, by status, ordered from most to least severe. Labels show the count and the share of the whole list. Data: DCCEEW EPBC Act List of Threatened Flora (SPRAT).",
+  "description": "Bar chart: number of plant taxa on the EPBC Act List of Threatened Flora, by status, ordered from most to least severe. All bars share one colour because status is already shown by position on the y-axis. Labels show the count and the share of the whole list. Data: DCCEEW EPBC Act List of Threatened Flora (SPRAT).",
   "background": null,
   "width": 560,
   "height": {"step": 46},
@@ -47,18 +47,7 @@
   },
   "layer": [
     {
-      "mark": {"type": "bar", "height": 26, "cornerRadiusEnd": 2},
-      "encoding": {
-        "color": {
-          "field": "status",
-          "type": "nominal",
-          "scale": {
-            "domain": ["Extinct", "Critically Endangered", "Endangered", "Vulnerable"],
-            "range": ["#2B2B2B", "#67000D", "#B8202E", "#FB9A3D"]
-          },
-          "legend": null
-        }
-      }
+      "mark": {"type": "bar", "height": 26, "cornerRadiusEnd": 2, "color": "#1F4E3D"}
     },
     {
       "mark": {"type": "text", "align": "left", "dx": 6, "fontSize": 12, "color": "#304E3B"},
