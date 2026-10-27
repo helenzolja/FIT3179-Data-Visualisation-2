@@ -1,0 +1,134 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bin map: 2025 iNaturalist observations of native plants in Victoria (whole year), counted in 0.1-degree squares (about 10 km). Each square is coloured by its number of observations, using the same orange as the native view of the flora choropleth. Equal-sized squares make counts comparable across the state. Observations with obscured coordinates are excluded. Major national parks and botanic gardens are marked (approximate centres).",
+  "width": 640,
+  "height": 420,
+  "background": null,
+  "title": {
+    "text": "Where were Victoria's native plants observed in 2025?",
+    "subtitle": [
+      "Each square is about 10 km across and is coloured by its number of native plant observations.",
+      "Dark green symbols mark major national parks and botanic gardens."
+    ],
+    "anchor": "start",
+    "fontSize": 15,
+    "subtitleFontSize": 12,
+    "color": "#304E3B",
+    "subtitleColor": "#607464",
+    "offset": 12
+  },
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [-35, -38.5],
+    "rotate": [-145, 0, 0]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/states.geojson",
+        "format": {"type": "json", "property": "features"}
+      },
+      "transform": [{"filter": "datum.properties.STATE_NAME == 'Victoria'"}],
+      "mark": {"type": "geoshape", "fill": "#E3E3DE", "stroke": "#FFFFFF", "strokeWidth": 1}
+    },
+    {
+      "data": {
+        "url": "data/vic_native_grid_2025.csv",
+        "format": {"parse": {"lon": "number", "lat": "number", "month": "number", "records": "number"}}
+      },
+      "transform": [
+        {
+          "aggregate": [{"op": "sum", "field": "records", "as": "observations"}],
+          "groupby": ["lon", "lat"]
+        },
+        {
+          "calculate": "datum.observations < 5 ? '1–4' : datum.observations < 20 ? '5–19' : datum.observations < 100 ? '20–99' : datum.observations < 500 ? '100–499' : '500 or more'",
+          "as": "obs_class"
+        }
+      ],
+      "mark": {"type": "point", "shape": "M-0.5,-0.62H0.5V0.62H-0.5Z", "filled": true, "size": 90, "opacity": 1},
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "color": {
+          "field": "obs_class",
+          "type": "ordinal",
+          "title": "Native plant observations per square",
+          "scale": {
+            "domain": ["500 or more", "100–499", "20–99", "5–19", "1–4", "No observations"],
+            "range": ["#C4561B", "#D6773F", "#E89A69", "#F5C3A0", "#FDE8D4", "#E3E3DE"]
+          },
+          "legend": {"orient": "right", "symbolType": "square", "symbolSize": 200, "labelFontSize": 11}
+        },
+        "tooltip": [
+          {"field": "observations", "type": "quantitative", "title": "Native plant observations", "format": ","}
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {"place": "Royal Botanic Gardens Melbourne", "label": "RBG Melbourne", "type": "Botanic garden", "lon": 144.98, "lat": -37.83, "align": "right"},
+          {"place": "Royal Botanic Gardens Cranbourne", "label": "RBG Cranbourne", "type": "Botanic garden", "lon": 145.27, "lat": -38.13, "align": "left"},
+          {"place": "Ballarat Botanical Gardens", "label": "Ballarat Botanical Gardens", "type": "Botanic garden", "lon": 143.83, "lat": -37.55, "align": "right"},
+          {"place": "Grampians National Park (Gariwerd)", "label": "Grampians NP", "type": "National park", "lon": 142.50, "lat": -37.20, "align": "right"},
+          {"place": "Dandenong Ranges National Park", "label": "Dandenong Ranges NP", "type": "National park", "lon": 145.37, "lat": -37.88, "align": "left"},
+          {"place": "Wilsons Promontory National Park", "label": "Wilsons Prom NP", "type": "National park", "lon": 146.38, "lat": -39.03, "align": "left"},
+          {"place": "Great Otway National Park", "label": "Great Otway NP", "type": "National park", "lon": 143.60, "lat": -38.70, "align": "right"},
+          {"place": "Croajingolong National Park", "label": "Croajingolong NP", "type": "National park", "lon": 149.20, "lat": -37.70, "align": "right"},
+          {"place": "Alpine National Park", "label": "Alpine NP", "type": "National park", "lon": 147.20, "lat": -37.00, "align": "left"},
+          {"place": "Little Desert National Park", "label": "Little Desert NP", "type": "National park", "lon": 141.70, "lat": -36.50, "align": "left"},
+          {"place": "Murray-Sunset National Park", "label": "Murray-Sunset NP", "type": "National park", "lon": 141.60, "lat": -34.90, "align": "left"}
+        ]
+      },
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"}
+      },
+      "layer": [
+        {
+          "mark": {"type": "point", "filled": true, "size": 90, "stroke": "#FFFFFF", "strokeWidth": 1.2, "opacity": 1},
+          "encoding": {
+            "shape": {
+              "field": "type",
+              "type": "nominal",
+              "title": "Landmark",
+              "scale": {"domain": ["National park", "Botanic garden"], "range": ["triangle-up", "diamond"]},
+              "legend": {"orient": "right", "symbolFillColor": "#304E3B", "symbolStrokeColor": "#FFFFFF", "symbolSize": 110, "labelFontSize": 11}
+            },
+            "color": {"value": "#304E3B"},
+            "tooltip": [
+              {"field": "place", "type": "nominal", "title": "Landmark"},
+              {"field": "type", "type": "nominal", "title": "Type"}
+            ]
+          }
+        },
+        {
+          "transform": [{"filter": "datum.align == 'left'"}],
+          "mark": {"type": "text", "align": "left", "dx": 7, "fontSize": 10.5, "fontWeight": "bold", "color": "#FFFFFF", "stroke": "#FFFFFF", "strokeWidth": 3, "strokeJoin": "round"},
+          "encoding": {"text": {"field": "label"}}
+        },
+        {
+          "transform": [{"filter": "datum.align == 'left'"}],
+          "mark": {"type": "text", "align": "left", "dx": 7, "fontSize": 10.5, "fontWeight": "bold", "color": "#304E3B"},
+          "encoding": {"text": {"field": "label"}}
+        },
+        {
+          "transform": [{"filter": "datum.align == 'right'"}],
+          "mark": {"type": "text", "align": "right", "dx": -7, "fontSize": 10.5, "fontWeight": "bold", "color": "#FFFFFF", "stroke": "#FFFFFF", "strokeWidth": 3, "strokeJoin": "round"},
+          "encoding": {"text": {"field": "label"}}
+        },
+        {
+          "transform": [{"filter": "datum.align == 'right'"}],
+          "mark": {"type": "text", "align": "right", "dx": -7, "fontSize": 10.5, "fontWeight": "bold", "color": "#304E3B"},
+          "encoding": {"text": {"field": "label"}}
+        }
+      ]
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "font": "Ubuntu",
+    "legend": {"labelColor": "#304E3B", "titleColor": "#304E3B"}
+  }
+}

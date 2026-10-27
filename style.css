@@ -280,3 +280,25 @@ h3 {
 #genera_2025_chloropleth .vega-bind:has(input[type="range"]) .vega-bind-name {
     display: none;
 }
+
+/* MONTH SLIDER UNDER THE VICTORIAN BIN MAP */
+
+/* The slider is the same width as the month strip (640px - one
+   49px month cell + ~16px slider thumb), so each slider position
+   sits under its month. The number Vega shows next to the slider
+   is hidden because the strip already shows the month name. */
+#vic_native_bin_map .vega-bindings {
+    text-align: center;
+}
+
+#vic_native_bin_map input[type="range"] {
+    width: 607px;
+    margin: 0 0 14px;
+    accent-color: #3F7F48;
+}
+
+#vic_native_bin_map input[type="range"] + span,
+#vic_native_bin_map input[type="range"] ~ span,
+#vic_native_bin_map .vega-bind:has(input[type="range"]) .vega-bind-name {
+    display: none;
+}

@@ -165,7 +165,97 @@
 
             </div>
 
- <section class="paragraph-section">
+        </section>
+        <!-- Spike map of 2025 plant records (full width) -->
+        <section class="paragraph-section">
+
+            <h3>Where Were Plants Recorded in 2025?</h3>
+
+            <div class="screen-text">
+                <p>
+                    Across Australia, <b>954,803</b> plant records were made in 2025, but
+                    they are far from evenly spread. The tallest spikes rise over Sydney
+                    (<b>56,067</b> records), Melbourne (<b>54,809</b>) and Sydney's west and
+                    the Blue Mountains (<b>41,670</b>), while half of all squares have
+                    <b>69 records or fewer</b>.
+                </p>
+                <p>
+                    Records follow people: most are made near cities and along the east
+                    coast, which is worth remembering when reading the maps of plants that
+                    follow.
+                </p>
+            </div>
+
+            <div class="chart-panel">
+
+                <div id="occurence_spike_map" class="chart-full"></div>
+
+                <p class="chart-note">
+                    <i>Note: Each spike stands on a square about 110 km across, and its height
+                    is proportional to the number of plant records in that square. The two
+                    reference spikes in the ocean show 10,000 and 25,000 records. Hover over a
+                    spike for its exact count.</i>
+                </p>
+
+                <p class="chart-source">
+                    Source:
+                    <a href="https://doi.org/10.26197/ala.9bb2d168-c596-4e02-afd8-c0387a279d7c"
+                       target="_blank" rel="noopener noreferrer">
+                        Atlas of Living Australia occurrence download
+                    </a>
+                    (plants, 2025).
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- Bin map of native plant observations in Victoria (full width) -->
+        <section class="paragraph-section">
+
+            <h3>Where Are Victoria's Native Plants Observed?</h3>
+
+            <div class="screen-text">
+                <p>
+                    In 2025, people made <b>80,613</b> observations of native plants across
+                    Victoria. They are far from evenly spread: about <b>72%</b> fall in just
+                    1 in 10 squares. The busiest square, in the Dandenong Ranges east of
+                    Melbourne, has <b>3,732</b> observations on its own.
+                </p>
+                <p>
+                    The darkest squares sit around national parks and botanic gardens,
+                    such as the Dandenong Ranges, the Grampians, Croajingolong and the
+                    Royal Botanic Gardens: places people visit to see native plants.
+                </p>
+            </div>
+
+            <div class="chart-panel">
+
+                <div id="vic_native_bin_map" class="chart-full"></div>
+
+                <p class="chart-note">
+                    <i>Note: Each square is about 10 km across, so every square covers the
+                    same amount of land and colours can be compared fairly. Observations
+                    follow where people walk and look for plants. Park and garden symbols
+                    mark approximate centres. Observations with deliberately blurred
+                    locations (usually threatened plants) are not shown. Hover over a
+                    square for its exact count.</i>
+                </p>
+
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.inaturalist.org/" target="_blank" rel="noopener noreferrer">
+                        iNaturalist
+                    </a>
+                    observations of native plants in Victoria (2025).
+                </p>
+
+            </div>
+
+        </section>
+
+
+    <section class="paragraph-section">
  
             <h3>Australia's Largest Plant Families</h3>
  
@@ -185,18 +275,33 @@
             </div>
  
         </section>
-         <!-- Chart 4: choropleth of a chosen genus by month (full width) -->
+        <!-- Bump chart: rank of native genera by month (full width) -->
         <section class="paragraph-section">
 
-            <h3>Where Is Native Plant Genera Most Prominent?</h3>
+            <h3>Which Native Plants Take Over Each Season?</h3>
+
+            <div class="screen-text">
+                <p>
+                    Gum trees and wattles are the most recorded native genera for most of
+                    the year, but the seasons reshuffle the rest. Spider orchids (Caladenia)
+                    rank last from January to July, then climb to <b>2nd</b> in September
+                    as they flower in spring. In Western Australia they reach <b>1st</b> in
+                    September and October, while sundews lead there in winter.
+                </p>
+                <p>
+                    Click any line to follow a genus, and choose a state from the dropdown.
+                </p>
+            </div>
 
             <div class="chart-panel">
 
-                <div id="genera_2025_chloropleth"></div>
+                <div id="genera_month_bump" class="chart-full"></div>
 
                 <p class="chart-note">
-                    <i>Note: Drag the slider to move through the months and use
-                    the dropdown to pick a plant group. Grey = no sightings.</i>
+                    <i>Note: Ranks compare the 10 genera within each month, so months with
+                    more sightings overall do not dominate. Sightings reflect when people
+                    record plants, which often matches flowering. Hover over a point for the
+                    number of sightings and the share of all plant sightings that month.</i>
                 </p>
 
                 <p class="chart-source">
@@ -204,7 +309,7 @@
                     <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">
                         Atlas of Living Australia
                     </a>
-                    (2025).
+                    plant occurrence records (2025).
                 </p>
 
             </div>
