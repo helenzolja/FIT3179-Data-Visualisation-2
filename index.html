@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +10,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Roboto+Slab:wght@400;500;600;700&family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
@@ -27,90 +26,62 @@
 
     <!-- HERO SECTION -->
     <header class="hero">
-
         <h1>Exploring Australian Native Plants</h1>
-
+        <p class="hero-intro">
+            How does Australia's flora compare with the world, where is it found and recorded,
+            when does it appear, and what threatens it?
+        </p>
     </header>
 
 
-    <!-- SINGLE WHITE CONTENT BACKGROUND -->
     <main class="content-container">
 
-        <!-- SECTION 01: PLANT DIVERSITY -->
+        <!-- =====================================================
+             1  AUSTRALIA VS THE WORLD  (writing left, chart right)
+             ===================================================== -->
         <section class="paragraph-section">
 
+            <p class="section-number">1</p>
             <h2>Diversity of Australian Plants</h2>
 
-            <div class="screen-split">
+            <div class="screen-split chart-right">
 
-                <!-- Sec1 text -->
                 <div class="screen-text">
-
                     <p>
-                        Australia has over <b>20'000</b> native vascular plant species,
-                        which account for roughly 10% of the global total,
-                        with almost <b>9 in 10</b> Australian plant species (88%)
-                        being <b>endemic</b>, meaning they are found nowhere else
-                        on Earth.
+                        Australia has over <b>20,000</b> native vascular plant species,
+                        roughly 10% of the global total, and almost <b>9 in 10</b> of them
+                        (88%) are <b>endemic</b>: found nowhere else on Earth.
                     </p>
-
                     <p>
-                        Within the large range of unique species, the country's
-                        flora is mainly dominated by several major taxonomic
-                        plant groups that have adapted to Australia's
-                        drought and fire-prone landscape.
+                        <b>Flowering plants</b> (angiosperms) make up the vast majority of
+                        the continent's flora. Smaller groups include <b>gymnosperms</b>
+                        (conifers, cycads and their relatives) and <b>bryophytes</b>
+                        (mosses, liverworts and hornworts), small spore-producing plants
+                        that help stabilise soil.
                     </p>
-
                     <p>
-                        As visualised on the right, <b>flowering plants</b> or
-                        angiosperms make up the vast majority of the
-                        continent's vascular flora and dominate the world's
-                        ecosystems.
-
-                        Minor plant groups such as <b>gymnosperms</b> consist of
-                        conifers, cycads and their relatives.
-
-                        <b>Bryophytes</b>, consisting of mosses, liverworts and
-                        hornworts, are small, non-vascular, spore-producing
-                        plants that play a role in soil stabilisation and
-                        other ecological processes.
+                        Australia holds about <b>7%</b> of the world's described flowering
+                        plants, but more than a quarter of its described plant algae.
                     </p>
-
-                    <p>
-                        Although worldwide species totals are much larger,
-                        comparing the groups reveals how Australia's
-                        contribution varies across different branches
-                        of plant diversity.
-                    </p>
-
                 </div>
 
-
-                <!-- Dumbbell chart 1 -->
                 <div class="chart-panel">
-
                     <h3>Plant Groups in Australia vs Worldwide</h3>
+                    <p class="chart-subtitle">Number of described species in each plant group.</p>
 
-                    <div id="aus_flora_estimates_chart"></div>
+                    <div id="aus_flora_estimates_chart" class="chart-half"></div>
 
-                    <p class="chart-explanation">
-                        <i> Note: A logarithmic scale is used to accommodate
-                        differences in species counts between groups.
-                        Distances therefore represent proportional rather
-                        than absolute differences.</i>
+                    <p class="chart-note">
+                        <i>Note: The axis uses a log scale, so each gridline (100, 1,000,
+                        10,000, 100,000) is ten times the one before. Plant algae for
+                        Australia is given as a range (3,236–3,545); the midpoint is shown.</i>
                     </p>
-
                     <p class="chart-source">
                         Source:
                         <a href="https://www.dcceew.gov.au/science-research/abrs/publications/other/numbers-living-species/discussion-plants"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            DCCEEW — Numbers of Living Species
-                            in Australia and the World
-                        </a>
+                           target="_blank" rel="noopener noreferrer">DCCEEW, Numbers of Living Species in Australia and the World</a>
                         (2009).
                     </p>
-
                 </div>
 
             </div>
@@ -118,296 +89,488 @@
         </section>
 
 
-        <!-- Chart 2 map -->
+        <!-- =====================================================
+             2  WHERE PLANTS WERE RECORDED IN 2025  (wide chart)
+             ===================================================== -->
         <section class="paragraph-section">
 
-            <div class="screen-split">
+            <p class="section-number">2</p>
+            <h2>Where Were Plants Recorded in 2025?</h2>
 
-                <!-- LEFT: CHOROPLETH MAP -->
-                <div class="chart-panel">
-
-                    <h3>Flora Distribution by State</h3>
-
-                    <div id="flora_share_map"></div>
-
-                    <p class="chart-source">
-                        Source:
-                        <a href="https://www.anbg.gov.au/aust-veg/australian-flora-statistics.html"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            Australian flora statistics
-                        </a>
-                        (1992).
-                    </p>
-
-                </div>
-                <!-- RIGHT: EXPLANATORY TEXT -->
+            <div class="section-intro">
                 <div class="screen-text">
-
-                    <p>
-                        As observed from the flora distribution map, Queensland (QLD) and Western Australia (WA) exhibit half of Australia's native plants,
-                        while naturalised or introduced species cluster in the south-east around New South Wales (NSW).
-                        In comparison, Tasmania (TAS) contain the smaller percentage of flora, both native or naturalised. 
+                    <p class="placeholder">
+                        [Placeholder] Introduce the map: how many plant records were made
+                        across Australia in 2025 (954,803) and which places stand out, such
+                        as the tallest spikes over Sydney and Melbourne.
                     </p>
-
-                    <p>
-                        Since QLD and WA coast a diverse range of climates, more plant species are likely to grow there, supported by its
-                        vast isolated landscapes with less human interference. In contrast, TAS has a cooler climate and is geographically seperated from the mainland,
-                        reducing chances of plant species to disperse and establish there. NSW has a higher percentage of naturalised plants as it was settled first,
-                        coasting a long history of European settlement, ports and agriculture that allowed for the introduction of non-native species. 
-                    </p>
-                    <p>
-                        The butterfy chart below show the largest plant families within Australia and the number of respective
-                        native genera and species within each family.
-                    </p>
-
                 </div>
-
-            </div>
-
-        </section>
-        <!-- Spike map of 2025 plant records (full width) -->
-        <section class="paragraph-section">
-
-            <h3>Where Were Plants Recorded in 2025?</h3>
-
-            <div class="screen-text">
-                <p>
-                    Across Australia, <b>954,803</b> plant records were made in 2025, but
-                    they are far from evenly spread. The tallest spikes rise over Sydney
-                    (<b>56,067</b> records), Melbourne (<b>54,809</b>) and Sydney's west and
-                    the Blue Mountains (<b>41,670</b>), while half of all squares have
-                    <b>69 records or fewer</b>.
-                </p>
-                <p>
-                    Records follow people: most are made near cities and along the east
-                    coast, which is worth remembering when reading the maps of plants that
-                    follow.
-                </p>
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Explain what the pattern means: records follow people,
+                        so they cluster near cities and the east coast. Remind readers to keep
+                        this in mind for the charts that follow.
+                    </p>
+                </div>
             </div>
 
             <div class="chart-panel">
+                <div class="chart-with-aside">
+                    <div id="occurence_spike_map" class="chart-full"></div>
 
-                <div id="occurence_spike_map" class="chart-full"></div>
+                <aside class="chart-aside">
+                    <div class="text-note">
+                        <p><b>[Placeholder title]</b> [Placeholder] Point to a tall spike, e.g. Sydney's 56,067 records, and say what is there.</p>
+                    </div>
+
+                    <div class="text-note">
+                        <p><b>[Placeholder title]</b> [Placeholder] Point to a quiet area, e.g. the inland, and why few records come from it.</p>
+                    </div>
+                </aside>
+                </div>
 
                 <p class="chart-note">
-                    <i>Note: Each spike stands on a square about 110 km across, and its height
-                    is proportional to the number of plant records in that square. The two
-                    reference spikes in the ocean show 10,000 and 25,000 records. Hover over a
-                    spike for its exact count.</i>
+                    <i>Note: Each spike stands on a square about 110 km across; its height is
+                    proportional to the number of plant records in that square. Reference
+                    spikes are shown beside the map. Hover over a spike for its exact count.</i>
                 </p>
-
                 <p class="chart-source">
                     Source:
                     <a href="https://doi.org/10.26197/ala.9bb2d168-c596-4e02-afd8-c0387a279d7c"
-                       target="_blank" rel="noopener noreferrer">
-                        Atlas of Living Australia occurrence download
-                    </a>
+                       target="_blank" rel="noopener noreferrer">Atlas of Living Australia occurrence download</a>
                     (plants, 2025).
                 </p>
-
             </div>
 
         </section>
 
-        <!-- Bin map of native plant observations in Victoria (full width) -->
+
+        <!-- =====================================================
+             3  VEGETATION TYPES  (wide chart)
+             ===================================================== -->
         <section class="paragraph-section">
 
-            <h3>Where Are Victoria's Native Plants Observed?</h3>
+            <p class="section-number">3</p>
+            <h2>What Covers the Land?</h2>
 
-            <div class="screen-text">
-                <p>
-                    In 2025, people made <b>80,613</b> observations of native plants across
-                    Victoria. They are far from evenly spread: about <b>72%</b> fall in just
-                    1 in 10 squares. The busiest square, in the Dandenong Ranges east of
-                    Melbourne, has <b>3,732</b> observations on its own.
-                </p>
-                <p>
-                    The darkest squares sit around national parks and botanic gardens,
-                    such as the Dandenong Ranges, the Grampians, Croajingolong and the
-                    Royal Botanic Gardens: places people visit to see native plants.
-                </p>
+            <div class="section-intro">
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Describe the main vegetation types: woodlands (39.6%)
+                        and shrublands (37.3%) together cover more than three-quarters of
+                        the continent.
+                    </p>
+                </div>
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Point out the smaller groups, such as forests (about 5%)
+                        and mangroves and coast (0.3%), and what this says about Australia's
+                        landscape.
+                    </p>
+                </div>
             </div>
 
             <div class="chart-panel">
+                <div class="chart-with-aside">
+                    <div id="vegetation_waffle" class="chart-full"></div>
 
-                <div id="vic_native_bin_map" class="chart-full"></div>
+                <aside class="chart-aside">
+                    <figure class="photo-note">
+                        <div class="photo-slot"><img src="images/annot/woodland.jpg" alt="[Placeholder] describe the photo"></div>
+                        <figcaption><b>[Placeholder title]</b> [Placeholder] Photo of a woodland or shrubland, the two largest groups.</figcaption>
+                    </figure>
+
+                    <figure class="photo-note">
+                        <div class="photo-slot"><img src="images/annot/mangroves.JPG" alt="[Placeholder] describe the photo"></div>
+                        <figcaption><b>[Placeholder title]</b> [Placeholder] Photo of a forest, which covers only about 5% of the land.</figcaption>
+                    </figure>
+                </aside>
+                </div>
 
                 <p class="chart-note">
-                    <i>Note: Each square is about 10 km across, so every square covers the
-                    same amount of land and colours can be compared fairly. Observations
-                    follow where people walk and look for plants. Park and garden symbols
-                    mark approximate centres. Observations with deliberately blurred
-                    locations (usually threatened plants) are not shown. Hover over a
-                    square for its exact count.</i>
+                    <i>Note: Square counts are calculated from each group's area and rounded so
+                    they add to exactly 1,000. Hover over a square for the group's area and the
+                    vegetation types it includes.</i>
                 </p>
-
-                <p class="chart-source">
-                    Source:
-                    <a href="https://www.inaturalist.org/" target="_blank" rel="noopener noreferrer">
-                        iNaturalist
-                    </a>
-                    observations of native plants in Victoria (2025).
-                </p>
-
-            </div>
-
-        </section>
-
-
-    <section class="paragraph-section">
- 
-            <h3>Australia's Largest Plant Families</h3>
- 
-            <div class="chart-panel">
- 
-                <div id="butterflychart_genus_species"></div>
                 <p class="chart-source">
                     Source:
                     <a href="https://www.anbg.gov.au/aust-veg/australian-flora-statistics.html"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        Australian National Botanic Gardens
-                    </a>
-                    (1992).
+                       target="_blank" rel="noopener noreferrer">ANBG, Australian flora statistics</a>,
+                    from the Atlas of Australian Resources: Vegetation (AUSLIG, 1990).
                 </p>
- 
             </div>
- 
+
         </section>
-        <!-- Bump chart: rank of native genera by month (full width) -->
+
+
+        <!-- =====================================================
+             4  LARGEST PLANT FAMILIES  (wide chart)
+             ===================================================== -->
         <section class="paragraph-section">
 
-            <h3>Which Native Plants Take Over Each Season?</h3>
+            <p class="section-number">4</p>
+            <h2>Australia's Largest Plant Families</h2>
 
-            <div class="screen-text">
-                <p>
-                    Gum trees and wattles are the most recorded native genera for most of
-                    the year, but the seasons reshuffle the rest. Spider orchids (Caladenia)
-                    rank last from January to July, then climb to <b>2nd</b> in September
-                    as they flower in spring. In Western Australia they reach <b>1st</b> in
-                    September and October, while sundews lead there in winter.
-                </p>
-                <p>
-                    Click any line to follow a genus, and choose a state from the dropdown.
-                </p>
+            <div class="section-intro">
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Introduce the largest families: the myrtle family
+                        (Myrtaceae), which includes the eucalypts, has the most native
+                        species (1,646).
+                    </p>
+                </div>
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Compare genera with species: grasses (Poaceae) have the
+                        most genera (151), while wattles (Mimosaceae) have only 17 genera but
+                        833 species.
+                    </p>
+                </div>
             </div>
 
             <div class="chart-panel">
+                <h3>Genera and Native Species in the Largest Families</h3>
+                <p class="chart-subtitle">Families sorted by number of native species.</p>
+
+                <div id="butterflychart_genus_species" class="chart-full"></div>
+
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.anbg.gov.au/aust-veg/australian-flora-statistics.html"
+                       target="_blank" rel="noopener noreferrer">ANBG, Australian flora statistics</a>
+                    (1992).
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             5  NATIVE VS NATURALISED  (chart left, writing right)
+             ===================================================== -->
+        <section class="paragraph-section">
+
+            <p class="section-number">5</p>
+            <h2>Native and Naturalised Plants by State</h2>
+
+            <div class="screen-split chart-left">
+
+                <div class="chart-panel">
+                    <h3>Flora Distribution by State</h3>
+                    <p class="chart-subtitle">Share of Australia's species found in each state. Use the menu to switch category.</p>
+
+                    <div id="flora_share_map" class="chart-half"></div>
+
+                    <p class="chart-note">
+                        <i>Note: A species can grow in several states, so the shares add to more
+                        than 100%. The source gives no figure for the ACT.</i>
+                    </p>
+                    <p class="chart-source">
+                        Source:
+                        <a href="https://www.anbg.gov.au/aust-veg/australian-flora-statistics.html"
+                           target="_blank" rel="noopener noreferrer">ANBG, Australian flora statistics</a>
+                        (1992).
+                    </p>
+                </div>
+
+                <div class="screen-text">
+                    <p>
+                        Queensland and Western Australia each contain almost half
+                        (<b>48%</b>) of Australia's native species. Tasmania has the
+                        smallest share, at <b>10%</b>.
+                    </p>
+                    <p>
+                        Switch to <b>naturalised</b> plants (species introduced from overseas
+                        that now grow wild) and the pattern moves south-east: New South Wales
+                        holds <b>64%</b> of them and Queensland <b>59%</b>, while the Northern
+                        Territory has only <b>13%</b>.
+                    </p>
+                    <p>
+                        One likely reason is that large states span many climates, while the
+                        south-east has the longest history of European settlement, ports and
+                        farming, which are common routes for introduced plants.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             6  WHEN AND WHERE NATIVE GENERA ARE RECORDED  (wide chart)
+             ===================================================== -->
+        <section class="paragraph-section">
+
+            <p class="section-number">6</p>
+            <h2>When and Where Are Native Plants Recorded?</h2>
+
+            <div class="section-intro">
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Describe a seasonal pattern, e.g. spider orchids
+                        (Caladenia): 88% of their 2025 records come in spring, peaking in
+                        September (43%).
+                    </p>
+                </div>
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Contrast with genera recorded all year, such as wattles
+                        (Acacia) and gum trees (Eucalyptus), and tell readers to use the
+                        menu to compare genera.
+                    </p>
+                </div>
+            </div>
+
+            <div class="chart-panel">
+                <!-- Picture + name + fact for the chosen genus. The menu here
+                     also changes the heatmap and radial chart (see script.js). -->
+                <div class="genus-panel">
+                    <div class="photo-slot"><img id="genus-photo" src="" alt=""></div>
+                    <div>
+                        <label for="genus-select">Choose a genus</label>
+                        <select id="genus-select"></select>
+                        <p class="genus-common" id="genus-common"></p>
+                        <p class="genus-fact" id="genus-fact"></p>
+                    </div>
+                </div>
 
                 <div id="genera_month_bump" class="chart-full"></div>
 
                 <p class="chart-note">
-                    <i>Note: Ranks compare the 10 genera within each month, so months with
-                    more sightings overall do not dominate. Sightings reflect when people
-                    record plants, which often matches flowering. Hover over a point for the
-                    number of sightings and the share of all plant sightings that month.</i>
+                    <i>Note: Each wedge's area (beyond the centre hole) is proportional to that
+                    month's records. Records show when people find and record plants, which
+                    often but not always matches flowering.</i>
                 </p>
-
                 <p class="chart-source">
                     Source:
-                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">
-                        Atlas of Living Australia
-                    </a>
+                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">Atlas of Living Australia</a>
                     plant occurrence records (2025).
                 </p>
-
-            </div>
-
-        </section>
-                <!-- Chart: vegetation waffle + National Reserve System callouts (full width) -->
-        <section class="paragraph-section">
-
-            <h3>Placeholder title (geographical structure)</h3>
-
-            <div class="chart-panel">
-
-                <div id="vegetation_waffle"></div>
-
-                <p class="chart-source">
-                    Source:
-                    <a href="https://www.anbg.gov.au/aust-veg/australian-flora-statistics.html"
-                       target="_blank"
-                       rel="noopener noreferrer">
-                        Australian National Botanic Gardens
-                    </a>
-                </p>
-
-            </div>
-
-        </section>
-        <!-- Chart: UpSet-style weeds chart (full width) -->
-        <section class="paragraph-section">
-
-            <h3>Weed distribution within plants.</h3>
-
-            <div class="chart-panel">
-
-                <div id="weed_chart"></div>
-
-                <p class="chart-source">
-                    Source:
-                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">
-                        Atlas of Living Australia
-                    </a>
-                </p>
-
             </div>
 
         </section>
 
 
-                <!-- Chart: ridgeline area chart, when weeds are recorded (full width) -->
+        <!-- =====================================================
+             7  VICTORIA'S NATIVE PLANTS  (wide chart)
+             ===================================================== -->
         <section class="paragraph-section">
 
+            <p class="section-number">7</p>
+            <h2>A Closer Look at Victoria</h2>
+
+            <div class="section-intro">
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Introduce Victoria's 80,613 native plant observations in
+                        2025 and how concentrated they are (about 72% fall in 1 in 10 squares).
+                    </p>
+                </div>
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Link the busiest squares to parks and gardens, such as the
+                        Dandenong Ranges (3,732 observations in one square), the Grampians and
+                        Croajingolong.
+                    </p>
+                </div>
+            </div>
 
             <div class="chart-panel">
+                <div class="chart-with-aside">
+                    <div id="vic_native_bin_map" class="chart-full"></div>
 
-                <div id="monthly_weed_chart"></div>
+                <aside class="chart-aside">
+                    <figure class="photo-note">
+                        <div class="photo-slot"><img src="images/annot/dandenong.jpg" alt="[Placeholder] describe the photo"></div>
+                        <figcaption><b>[Placeholder title]</b> [Placeholder] Photo of the Dandenong Ranges, the busiest square (3,732 observations).</figcaption>
+                    </figure>
+
+                    <figure class="photo-note">
+                        <div class="photo-slot"><img src="images/annot/grampians.jpg" alt="[Placeholder] describe the photo"></div>
+                        <figcaption><b>[Placeholder title]</b> [Placeholder] Photo of another marked park or garden, e.g. the Grampians.</figcaption>
+                    </figure>
+                </aside>
+                </div>
 
                 <p class="chart-note">
-                    <i>
-                    Note: African Boxthorn's
-                    August peak is largely due to one large survey on a single day.
-                    Hover for details.</i>
+                    <i>Note: Each square is about 10 km across, so every square covers the same
+                    area. Symbols mark approximate park and garden centres. Observations with
+                    deliberately blurred locations (usually threatened plants) are not shown.</i>
                 </p>
-
                 <p class="chart-source">
                     Source:
-                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">
-                        Atlas of Living Australia
-                    </a>
+                    <a href="https://www.inaturalist.org/" target="_blank" rel="noopener noreferrer">iNaturalist</a>
+                    observations of native plants in Victoria (2025).
                 </p>
-
             </div>
 
         </section>
 
-                <!-- Chart: EPBC threatened flora by status (bar chart) -->
+
+        <!-- =====================================================
+             8  WEED DISTRIBUTION  (wide chart)
+             ===================================================== -->
         <section class="paragraph-section">
 
-            <h3>Conservation Status </h3>
+            <p class="section-number">8</p>
+            <h2>Which Weeds Are Most Widespread?</h2>
 
-            <div class="screen-text">
-                <p>
-    
-                </p>
+            <div class="section-intro">
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Explain that some naturalised plants become weeds, and
+                        that Blackberry is the most recorded listed weed.
+                    </p>
+                </div>
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Point out which weeds appear on several lists, e.g.
+                        Bridal Creeper is the only weed shown on all four lists.
+                    </p>
+                </div>
             </div>
 
             <div class="chart-panel">
+                <h3>The Most-Recorded Listed Weeds</h3>
+                <p class="chart-subtitle">Which official lists each weed is on, and its total number of records.</p>
 
-                <div id="conservation_status"></div>
+                <div class="chart-with-aside">
+                    <div id="weed_chart" class="chart-full"></div>
+
+                <aside class="chart-aside">
+                    <figure class="photo-note">
+                        <div class="photo-slot"><img src="images/annot/blackberry.jpg" alt="[Placeholder] describe the photo"></div>
+                        <figcaption><b>[Placeholder title]</b> [Placeholder] Photo of Blackberry, the most recorded listed weed.</figcaption>
+                    </figure>
+
+                    <figure class="photo-note">
+                        <div class="photo-slot"><img src="images/annot/bridalcreeper.jpg" alt="[Placeholder] describe the photo"></div>
+                        <figcaption><b>[Placeholder title]</b> [Placeholder] Photo of Bridal Creeper, the only weed on all four lists.</figcaption>
+                    </figure>
+                </aside>
+                </div>
+
                 <p class="chart-source">
                     Source:
-                    <a href="https://www.environment.gov.au/cgi-bin/sprat/public/publicthreatenedlist.pl?wanted=flora" target="_blank" rel="noopener noreferrer">
-                        DCCEEW, EPBC Act List of Threatened Flora
-                    </a>
+                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">Atlas of Living Australia</a>
+                    weed and pest lists.
                 </p>
-
             </div>
 
         </section>
+
+
+        <!-- =====================================================
+             9  WHEN WEEDS ARE RECORDED  (wide chart)
+             ===================================================== -->
+        <section class="paragraph-section">
+
+            <p class="section-number">9</p>
+            <h2>When Are Weeds Recorded?</h2>
+
+            <div class="section-intro">
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Describe the timing of weed records in 2025, e.g.
+                        Blackberry peaks in February (41% of its records) and Gamba Grass
+                        in May (38%).
+                    </p>
+                </div>
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Mention any unusual peak, such as African Boxthorn in
+                        August, and why it happened.
+                    </p>
+                </div>
+            </div>
+
+            <div class="chart-panel">
+                <div class="chart-with-aside">
+                    <div id="monthly_weed_chart" class="chart-full"></div>
+
+                <aside class="chart-aside">
+                    <div class="text-note">
+                        <p><b>[Placeholder title]</b> [Placeholder] Point to a weed with a clear peak, e.g. Blackberry in February (41% of its records), and why.</p>
+                    </div>
+
+                    <div class="text-note">
+                        <p><b>[Placeholder title]</b> [Placeholder] Explain African Boxthorn's August peak, which comes mostly from one large survey.</p>
+                    </div>
+                </aside>
+                </div>
+
+                <p class="chart-note">
+                    <i>Note: African Boxthorn's August peak is largely due to one large survey on
+                    a single day. Hover over a ridge for details.</i>
+                </p>
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.ala.org.au/" target="_blank" rel="noopener noreferrer">Atlas of Living Australia</a>
+                    occurrence records (2025).
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             10  CONSERVATION STATUS  (wide chart)
+             ===================================================== -->
+        <section class="paragraph-section">
+
+            <p class="section-number">10</p>
+            <h2>Which Plants Are Under Threat?</h2>
+
+            <div class="section-intro">
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Introduce the EPBC Act list: 1,522 plants are listed as
+                        extinct or threatened.
+                    </p>
+                </div>
+                <div class="screen-text">
+                    <p class="placeholder">
+                        [Placeholder] Highlight the key figures: 35 are already extinct, and
+                        about 6 in 10 listed plants are Critically Endangered or Endangered.
+                    </p>
+                </div>
+            </div>
+
+            <div class="chart-panel">
+                <div class="chart-with-aside">
+                    <div id="conservation_status" class="chart-full"></div>
+
+                <aside class="chart-aside">
+                    <div class="text-note">
+                        <p><b>[Placeholder title]</b> [Placeholder] Name one Critically Endangered plant and give one fact about it.</p>
+                    </div>
+
+                    <div class="text-note">
+                        <p><b>[Placeholder title]</b> [Placeholder] Note about one of the 35 extinct plants.</p>
+                    </div>
+                </aside>
+                </div>
+
+                <p class="chart-source">
+                    Source:
+                    <a href="https://www.environment.gov.au/cgi-bin/sprat/public/publicthreatenedlist.pl?wanted=flora"
+                       target="_blank" rel="noopener noreferrer">DCCEEW, EPBC Act List of Threatened Flora</a>.
+                </p>
+            </div>
+
+        </section>
+
     </main>
+
+
+    <!-- FOOTER -->
+    <footer class="page-footer">
+        <p>
+            FIT3179 Data Visualisation 2 · Created by [your name] ·
+            Data: DCCEEW, ANBG, Atlas of Living Australia and iNaturalist.
+        </p>
+    </footer>
 
 
     <!-- JavaScript -->
@@ -415,7 +578,6 @@
 
 </body>
 </html>
-
 
 
 
